@@ -9,346 +9,346 @@
 "57.title" = "Transmission";
 
 /* Class = "NSMenuItem"; title = "About Transmission"; ObjectID = "58"; */
-"58.title" = "About Transmission";
+"58.title" = "Om Transmission";
 
 /* Class = "NSMenuItem"; title = "Open Torrent File…"; ObjectID = "72"; */
-"72.title" = "Open Torrent File…";
+"72.title" = "Öppna torrentfil…";
 
 /* Class = "NSMenuItem"; title = "Close Window"; ObjectID = "73"; */
-"73.title" = "Close Window";
+"73.title" = "Stäng förnster";
 
 /* Class = "NSMenu"; title = "File"; ObjectID = "81"; */
-"81.title" = "File";
+"81.title" = "Arkiv";
 
 /* Class = "NSMenuItem"; title = "File"; ObjectID = "83"; */
-"83.title" = "File";
+"83.title" = "Arkiv";
 
 /* Class = "NSMenuItem"; title = "Help"; ObjectID = "103"; */
-"103.title" = "Help";
+"103.title" = "Hjälp";
 
 /* Class = "NSMenu"; title = "Help"; ObjectID = "106"; */
-"106.title" = "Help";
+"106.title" = "Hjälp";
 
 /* Class = "NSMenuItem"; title = "Preferences…"; ObjectID = "129"; */
-"129.title" = "Preferences…";
+"129.title" = "Inställningar…";
 
 /* Class = "NSMenu"; title = "Services"; ObjectID = "130"; */
-"130.title" = "Services";
+"130.title" = "Tjänster";
 
 /* Class = "NSMenuItem"; title = "Services"; ObjectID = "131"; */
-"131.title" = "Services";
+"131.title" = "Tjänster";
 
 /* Class = "NSMenuItem"; title = "Hide Transmission"; ObjectID = "134"; */
-"134.title" = "Hide Transmission";
+"134.title" = "Göm Transmission";
 
 /* Class = "NSMenuItem"; title = "Quit Transmission"; ObjectID = "136"; */
-"136.title" = "Quit Transmission";
+"136.title" = "Avsluta Transmission";
 
 /* Class = "NSMenuItem"; title = "Hide Others"; ObjectID = "145"; */
-"145.title" = "Hide Others";
+"145.title" = "Göm övriga";
 
 /* Class = "NSMenuItem"; title = "Show All"; ObjectID = "150"; */
-"150.title" = "Show All";
+"150.title" = "Visa alla";
 
 /* Class = "NSMenuItem"; title = "Copy"; ObjectID = "157"; */
-"157.title" = "Copy";
+"157.title" = "Kopiera";
 
 /* Class = "NSMenuItem"; title = "Cut"; ObjectID = "160"; */
-"160.title" = "Cut";
+"160.title" = "Klipp ut";
 
 /* Class = "NSMenuItem"; title = "Edit"; ObjectID = "163"; */
-"163.title" = "Edit";
+"163.title" = "Redigera";
 
 /* Class = "NSMenu"; title = "Edit"; ObjectID = "169"; */
-"169.title" = "Edit";
+"169.title" = "Redigera";
 
 /* Class = "NSMenuItem"; title = "Paste"; ObjectID = "171"; */
-"171.title" = "Paste";
+"171.title" = "Klistra in";
 
 /* Class = "NSMenuItem"; title = "Select All"; ObjectID = "172"; */
-"172.title" = "Select All";
+"172.title" = "Markera allt";
 
 /* Class = "NSMenuItem"; title = "View"; ObjectID = "301"; */
-"301.title" = "View";
+"301.title" = "Innehåll";
 
 /* Class = "NSMenu"; title = "View"; ObjectID = "302"; */
-"302.title" = "View";
+"302.title" = "Innehåll";
 
 /* Class = "NSMenuItem"; title = "Forums"; ObjectID = "418"; */
-"418.title" = "Forums";
+"418.title" = "Forum";
 
 /* Class = "NSMenu"; title = "Menu"; ObjectID = "456"; */
-"456.title" = "Menu";
+"456.title" = "Meny";
 
 /* Class = "NSMenuItem"; title = "Pause Selected"; ObjectID = "457"; */
-"457.title" = "Pause Selected";
+"457.title" = "Pausa valda";
 
 /* Class = "NSMenuItem"; title = "Show Inspector"; ObjectID = "459"; */
-"459.title" = "Show Inspector";
+"459.title" = "Visa information";
 
 /* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "516"; */
-"516.title" = "Show in Finder";
+"516.title" = "Visa i Finder";
 
 /* Class = "NSMenuItem"; title = "Customize Toolbar…"; ObjectID = "545"; */
-"545.title" = "Customize Toolbar…";
+"545.title" = "Anpassa verktygsfältet…";
 
 /* Class = "NSMenuItem"; title = "Hide Status Bar"; ObjectID = "547"; */
-"547.title" = "Hide Status Bar";
+"547.title" = "Göm statusrad";
 
 /* Class = "NSMenu"; title = "Menu"; ObjectID = "589"; */
-"589.title" = "Menu";
+"589.title" = "Meny";
 
 /* Class = "NSMenuItem"; title = "Show Inspector"; ObjectID = "598"; */
-"598.title" = "Show Inspector";
+"598.title" = "Visa Inspector";
 
 /* Class = "NSMenuItem"; title = "Open Torrent File…"; ObjectID = "611"; */
-"611.title" = "Open Torrent File…";
+"611.title" = "Öppna torrentfil…";
 
 /* Class = "NSMenuItem"; title = "Check for Update…"; ObjectID = "975"; */
-"975.title" = "Check for Update…";
+"975.title" = "Leta efter uppdatering…";
 
 /* Class = "NSMenuItem"; title = "Resume Selected"; ObjectID = "1028"; */
-"1028.title" = "Resume Selected";
+"1028.title" = "Återuppta valda";
 
 /* Class = "NSMenuItem"; title = "Hide Toolbar"; ObjectID = "1222"; */
-"1222.title" = "Hide Toolbar";
+"1222.title" = "Göm verktygsfältet";
 
 /* Class = "NSMenuItem"; title = "Transfers"; ObjectID = "1399"; */
-"1399.title" = "Transfers";
+"1399.title" = "Överföringar";
 
 /* Class = "NSMenu"; title = "Transfers"; ObjectID = "1400"; */
-"1400.title" = "Transfers";
+"1400.title" = "Överföringar";
 
 /* Class = "NSMenuItem"; title = "Pause Selected"; ObjectID = "1403"; */
-"1403.title" = "Pause Selected";
+"1403.title" = "Pausa valda";
 
 /* Class = "NSMenuItem"; title = "Resume Selected"; ObjectID = "1404"; */
-"1404.title" = "Resume Selected";
+"1404.title" = "Återuppta valda";
 
 /* Class = "NSMenuItem"; title = "Pause All"; ObjectID = "1413"; */
-"1413.title" = "Pause All";
+"1413.title" = "Pausa alla";
 
 /* Class = "NSMenuItem"; title = "Resume All"; ObjectID = "1414"; */
-"1414.title" = "Resume All";
+"1414.title" = "Återuppta alla";
 
 /* Class = "NSMenuItem"; title = "Remove and Trash Data File"; ObjectID = "1514"; */
-"1514.title" = "Remove and Trash Data File";
+"1514.title" = "Ta bort och släng datafiler";
 
 /* Class = "NSMenuItem"; title = "Remove From List"; ObjectID = "1516"; */
-"1516.title" = "Remove From List";
+"1516.title" = "Ta bort från listan";
 
 /* Class = "NSMenuItem"; title = "Save Torrent File As…"; ObjectID = "1533"; */
-"1533.title" = "Save Torrent File As…";
+"1533.title" = "Spara torrentfil som…";
 
 /* Class = "NSMenuItem"; title = "Show Inspector"; ObjectID = "1536"; */
-"1536.title" = "Show Inspector";
+"1536.title" = "Visa Inspector";
 
 /* Class = "NSMenuItem"; title = "Show in Finder"; ObjectID = "1539"; */
-"1539.title" = "Show in Finder";
+"1539.title" = "Visa i Finder";
 
 /* Class = "NSMenuItem"; title = "Remove From List"; ObjectID = "1550"; */
-"1550.title" = "Remove From List";
+"1550.title" = "Ta bort från listan";
 
 /* Class = "NSMenuItem"; title = "Remove and Trash Data File"; ObjectID = "1551"; */
-"1551.title" = "Remove and Trash Data File";
+"1551.title" = "Ta bort och släng datafiler";
 
 /* Class = "NSMenuItem"; title = "Transmission Homepage"; ObjectID = "1558"; */
-"1558.title" = "Transmission Homepage";
+"1558.title" = "Transmissions websida";
 
 /* Class = "NSMenuItem"; title = "Transmission Help"; ObjectID = "1561"; */
-"1561.title" = "Transmission Help";
+"1561.title" = "Transmission Hjälp";
 
 /* Class = "NSMenuItem"; title = "Speed Limit"; ObjectID = "1566"; */
 "1566.title" = "Speed Limit";
 
 /* Class = "NSMenuItem"; title = "Compact View"; ObjectID = "1578"; */
-"1578.title" = "Compact View";
+"1578.title" = "Kompakt vy";
 
 /* Class = "NSMenuItem"; title = "Hide Filter Bar"; ObjectID = "1620"; */
-"1620.title" = "Hide Filter Bar";
+"1620.title" = "Göm filterfält";
 
 /* Class = "NSMenuItem"; title = "Select None"; ObjectID = "1675"; */
-"1675.title" = "Select None";
+"1675.title" = "Avmarkera allt";
 
 /* Class = "NSMenuItem"; title = "Resume Selected Right Away"; ObjectID = "1678"; */
-"1678.title" = "Resume Selected Right Away";
+"1678.title" = "Återuppta valda direkt";
 
 /* Class = "NSMenuItem"; title = "Open With Options Window…"; ObjectID = "1680"; */
-"1680.title" = "Open With Options Window…";
+"1680.title" = "Öppna i fönster med extra val…";
 
 /* Class = "NSMenuItem"; title = "Window"; ObjectID = "1683"; */
-"1683.title" = "Window";
+"1683.title" = "Fönster";
 
 /* Class = "NSMenu"; title = "Window"; ObjectID = "1684"; */
-"1684.title" = "Window";
+"1684.title" = "Fönster";
 
 /* Class = "NSMenuItem"; title = "Minimize"; ObjectID = "1685"; */
-"1685.title" = "Minimize";
+"1685.title" = "Minimera";
 
 /* Class = "NSMenuItem"; title = "Bring All to Front"; ObjectID = "1687"; */
-"1687.title" = "Bring All to Front";
+"1687.title" = "Lägg alla överst";
 
 /* Class = "NSMenuItem"; title = "Zoom"; ObjectID = "1688"; */
-"1688.title" = "Zoom";
+"1688.title" = "Zooma";
 
 /* Class = "NSMenuItem"; title = "Next Inspector Tab"; ObjectID = "1693"; */
-"1693.title" = "Next Inspector Tab";
+"1693.title" = "Nästa Inspector-tab";
 
 /* Class = "NSMenuItem"; title = "Previous Inspector Tab"; ObjectID = "1694"; */
-"1694.title" = "Previous Inspector Tab";
+"1694.title" = "Föregående Inspector-tab";
 
 /* Class = "NSMenuItem"; title = "Transmission"; ObjectID = "1696"; */
 "1696.title" = "Transmission";
 
 /* Class = "NSMenuItem"; title = "Delete"; ObjectID = "1766"; */
-"1766.title" = "Delete";
+"1766.title" = "Radera";
 
 /* Class = "NSMenuItem"; title = "Message Log"; ObjectID = "1795"; */
-"1795.title" = "Message Log";
+"1795.title" = "Meddelandelogg";
 
 /* Class = "NSMenuItem"; title = "Next Filter Button"; ObjectID = "1797"; */
-"1797.title" = "Next Filter Button";
+"1797.title" = "Nästa filterknapp";
 
 /* Class = "NSMenuItem"; title = "Previous Filter Button"; ObjectID = "1798"; */
-"1798.title" = "Previous Filter Button";
+"1798.title" = "Föregående filterknapp";
 
 /* Class = "NSMenuItem"; title = "Resume All Waiting"; ObjectID = "1804"; */
-"1804.title" = "Resume All Waiting";
+"1804.title" = "Återuppta alla väntande";
 
 /* Class = "NSMenuItem"; title = "Resume Selected Right Away"; ObjectID = "1808"; */
-"1808.title" = "Resume Selected Right Away";
+"1808.title" = "Återuppta valda direkt";
 
 /* Class = "NSMenuItem"; title = "Open Torrent Address…"; ObjectID = "1846"; */
-"1846.title" = "Open Torrent Address…";
+"1846.title" = "Öppna torrentadress…";
 
 /* Class = "NSMenuItem"; title = "Open Torrent Address…"; ObjectID = "1858"; */
-"1858.title" = "Open Torrent Address…";
+"1858.title" = "Öppna torrentadress…";
 
 /* Class = "NSMenuItem"; title = "Update Tracker"; ObjectID = "1860"; */
-"1860.title" = "Update Tracker";
+"1860.title" = "Uppdatera tracker";
 
 /* Class = "NSMenuItem"; title = "Verify Local Data"; ObjectID = "1877"; */
-"1877.title" = "Verify Local Data";
+"1877.title" = "Verifiera lokala data";
 
 /* Class = "NSMenuItem"; title = "Move Data File To…"; ObjectID = "1891"; */
-"1891.title" = "Move Data File To…";
+"1891.title" = "Flytta datafiler till…";
 
 /* Class = "NSMenuItem"; title = "Sort Transfers By"; ObjectID = "1894"; */
-"1894.title" = "Sort Transfers By";
+"1894.title" = "Sortera överföringar efter";
 
 /* Class = "NSMenu"; title = "Sort Transfers By"; ObjectID = "1895"; */
-"1895.title" = "Sort Transfers By";
+"1895.title" = "Sortera överföringar efter";
 
 /* Class = "NSMenuItem"; title = "Progress"; ObjectID = "1896"; */
 "1896.title" = "Progress";
 
 /* Class = "NSMenuItem"; title = "State"; ObjectID = "1897"; */
-"1897.title" = "State";
+"1897.title" = "Tillstånd";
 
 /* Class = "NSMenuItem"; title = "Ascending"; ObjectID = "1899"; */
-"1899.title" = "Ascending";
+"1899.title" = "Stigande";
 
 /* Class = "NSMenuItem"; title = "Date Added"; ObjectID = "1900"; */
-"1900.title" = "Date Added";
+"1900.title" = "Datum tillagd";
 
 /* Class = "NSMenuItem"; title = "Queue Order"; ObjectID = "1901"; */
-"1901.title" = "Queue Order";
+"1901.title" = "Köordning";
 
 /* Class = "NSMenuItem"; title = "Name"; ObjectID = "1902"; */
-"1902.title" = "Name";
+"1902.title" = "Namn";
 
 /* Class = "NSMenuItem"; title = "Create Torrent File…"; ObjectID = "1921"; */
-"1921.title" = "Create Torrent File…";
+"1921.title" = "Skapa torrentfil…";
 
 /* Class = "NSMenuItem"; title = "Create Torrent File…"; ObjectID = "1923"; */
-"1923.title" = "Create Torrent File…";
+"1923.title" = "Skapa torrentfil…";
 
 /* Class = "NSMenuItem"; title = "Tracker"; ObjectID = "1933"; */
 "1933.title" = "Tracker";
 
 /* Class = "NSMenu"; title = "Menu"; ObjectID = "1936"; */
-"1936.title" = "Menu";
+"1936.title" = "Meny";
 
 /* Class = "NSMenuItem"; title = "Download Bandwidth Limit"; ObjectID = "1944"; */
-"1944.title" = "Download Bandwidth Limit";
+"1944.title" = "Bandbreddsbegränsning nedladdning";
 
 /* Class = "NSMenu"; title = "Download Bandwidth Limit"; ObjectID = "1945"; */
-"1945.title" = "Download Bandwidth Limit";
+"1945.title" = "Bandbreddsbegränsning nedladdning";
 
 /* Class = "NSMenuItem"; title = "Unlimited"; ObjectID = "1946"; */
-"1946.title" = "Unlimited";
+"1946.title" = "Obegränsad";
 
 /* Class = "NSMenuItem"; title = "Upload Bandwidth Limit"; ObjectID = "1950"; */
-"1950.title" = "Upload Bandwidth Limit";
+"1950.title" = "Bandbreddsbegränsning uppladdning";
 
 /* Class = "NSMenu"; title = "Upload Bandwidth Limit"; ObjectID = "1951"; */
-"1951.title" = "Upload Bandwidth Limit";
+"1951.title" = "Bandbreddsbegränsning uppladdning";
 
 /* Class = "NSMenuItem"; title = "limit"; ObjectID = "1960"; */
-"1960.title" = "limit";
+"1960.title" = "Begränsad";
 
 /* Class = "NSMenuItem"; title = "Unlimited"; ObjectID = "1963"; */
-"1963.title" = "Unlimited";
+"1963.title" = "Obegränsad";
 
 /* Class = "NSMenuItem"; title = "limit"; ObjectID = "1964"; */
-"1964.title" = "limit";
+"1964.title" = "Begränsad";
 
 /* Class = "NSMenuItem"; title = "Stop Seeding at Ratio"; ObjectID = "2017"; */
-"2017.title" = "Stop Seeding at Ratio";
+"2017.title" = "Sluta dela vid delningsförhållande";
 
 /* Class = "NSMenu"; title = "Stop Seeding at Ratio"; ObjectID = "2018"; */
-"2018.title" = "Stop Seeding at Ratio";
+"2018.title" = "Sluta dela vid delningsförhållande";
 
 /* Class = "NSMenuItem"; title = "Seed Forever"; ObjectID = "2024"; */
-"2024.title" = "Seed Forever";
+"2024.title" = "Dela tillsvidare";
 
 /* Class = "NSMenuItem"; title = "stop ratio"; ObjectID = "2025"; */
-"2025.title" = "stop ratio";
+"2025.title" = "stopp-förhållande";
 
 /* Class = "NSMenuItem"; title = "Global"; ObjectID = "2031"; */
 "2031.title" = "Global";
 
 /* Class = "NSMenuItem"; title = "Update Tracker"; ObjectID = "2122"; */
-"2122.title" = "Update Tracker";
+"2122.title" = "Uppdatera tracker";
 
 /* Class = "NSMenuItem"; title = "Pieces Bar"; ObjectID = "2185"; */
-"2185.title" = "Pieces Bar";
+"2185.title" = "Visa delar";
 
 /* Class = "NSMenuItem"; title = "Availability"; ObjectID = "2279"; */
-"2279.title" = "Availability";
+"2279.title" = "Tillgänglighet";
 
 /* Class = "NSMenuItem"; title = "Statistics"; ObjectID = "2301"; */
-"2301.title" = "Statistics";
+"2301.title" = "Statistik";
 
 /* Class = "NSMenuItem"; title = "Activity"; ObjectID = "2324"; */
-"2324.title" = "Activity";
+"2324.title" = "Aktivitet";
 
 /* Class = "NSMenuItem"; title = "Group"; ObjectID = "2839"; */
-"2839.title" = "Group";
+"2839.title" = "Grupp";
 
 /* Class = "NSMenu"; title = "Group"; ObjectID = "2840"; */
-"2840.title" = "Group";
+"2840.title" = "Grupp";
 
 /* Class = "NSMenuItem"; title = "Group"; ObjectID = "2849"; */
-"2849.title" = "Group";
+"2849.title" = "Grupp";
 
 /* Class = "NSMenu"; title = "Group"; ObjectID = "2850"; */
-"2850.title" = "Group";
+"2850.title" = "Grupp";
 
 /* Class = "NSMenuItem"; title = "Use Groups"; ObjectID = "3078"; */
-"3078.title" = "Use Groups";
+"3078.title" = "Använd grupper";
 
 /* Class = "NSTableColumn"; headerCell.title = "Color"; ObjectID = "3093"; */
-"3093.headerCell.title" = "Color";
+"3093.headerCell.title" = "Färg";
 
 /* Class = "NSTableColumn"; headerCell.title = "DL Speed"; ObjectID = "3126"; */
-"3126.headerCell.title" = "DL Speed";
+"3126.headerCell.title" = "NL hastighet";
 
 /* Class = "NSTableColumn"; headerCell.title = "UL Speed"; ObjectID = "3135"; */
-"3135.headerCell.title" = "UL Speed";
+"3135.headerCell.title" = "UL hastighet";
 
 /* Class = "NSTableColumn"; headerCell.title = "Group"; ObjectID = "3140"; */
-"3140.headerCell.title" = "Group";
+"3140.headerCell.title" = "Grupp";
 
 /* Class = "NSMenuItem"; title = "Quick Look"; ObjectID = "3166"; */
 "3166.title" = "Quick Look";
@@ -357,73 +357,73 @@
 "3170.title" = "Support & Development";
 
 /* Class = "NSMenuItem"; title = "Stay Within Global Bandwidth Limits"; ObjectID = "3190"; */
-"3190.title" = "Stay Within Global Bandwidth Limits";
+"3190.title" = "Förbli inom de globala bandbreddsbegränsningarna";
 
 /* Class = "NSMenuItem"; title = "Priority"; ObjectID = "3196"; */
-"3196.title" = "Priority";
+"3196.title" = "Prioritet";
 
 /* Class = "NSMenu"; title = "Priority"; ObjectID = "3197"; */
-"3197.title" = "Priority";
+"3197.title" = "Prioritet";
 
 /* Class = "NSMenuItem"; title = "High"; ObjectID = "3198"; */
-"3198.title" = "High";
+"3198.title" = "Hög";
 
 /* Class = "NSMenuItem"; title = "Normal"; ObjectID = "3199"; */
 "3199.title" = "Normal";
 
 /* Class = "NSMenuItem"; title = "Low"; ObjectID = "3200"; */
-"3200.title" = "Low";
+"3200.title" = "Låg";
 
 /* Class = "NSMenuItem"; title = "Save Torrent File As…"; ObjectID = "3207"; */
-"3207.title" = "Save Torrent File As…";
+"3207.title" = "Spara torrentfil som…";
 
 /* Class = "NSMenuItem"; title = "Move Data File To…"; ObjectID = "3209"; */
-"3209.title" = "Move Data File To…";
+"3209.title" = "Flytta datafiler till…";
 
 /* Class = "NSMenuItem"; title = "Donate…"; ObjectID = "3212"; */
-"3212.title" = "Donate…";
+"3212.title" = "Donera…";
 
 /* Class = "NSMenuItem"; title = "Copy Magnet Link to Clipboard"; ObjectID = "3216"; */
 "3216.title" = "Copy Magnet Link to Clipboard";
 
 /* Class = "NSMenuItem"; title = "Copy Magnet Link to Clipboard"; ObjectID = "3218"; */
-"3218.title" = "Copy Magnet Link to Clipboard";
+"3218.title" = "Kopiera magnetlänk till klippbordet";
 
 /* Class = "NSMenuItem"; title = "Verify Local Data"; ObjectID = "3221"; */
-"3221.title" = "Verify Local Data";
+"3221.title" = "Verifiera lokala data";
 
 /* Class = "NSMenuItem"; title = "Undo"; ObjectID = "3321"; */
-"3321.title" = "Undo";
+"3321.title" = "Ångra";
 
 /* Class = "NSMenuItem"; title = "Redo"; ObjectID = "3400"; */
-"3400.title" = "Redo";
+"3400.title" = "Gör om";
 
 /* Class = "NSMenuItem"; title = "Descending"; ObjectID = "3405"; */
-"3405.title" = "Descending";
+"3405.title" = "Fallande";
 
 /* Class = "NSMenuItem"; title = "Remove All Completed From List"; ObjectID = "3407"; */
-"3407.title" = "Remove All Completed From List";
+"3407.title" = "Ta bort alla slutförda från listan";
 
 /* Class = "NSMenuItem"; title = "Size"; ObjectID = "3430"; */
-"3430.title" = "Size";
+"3430.title" = "Storlek";
 
 /* Class = "NSMenuItem"; title = "Rename File…"; ObjectID = "3445"; */
-"3445.title" = "Rename File…";
+"3445.title" = "Döp om fil…";
 
 /* Class = "NSMenuItem"; title = "Rename File…"; ObjectID = "3448"; */
-"3448.title" = "Rename File…";
+"3448.title" = "Döp om fil…";
 
 /* Class = "NSMenuItem"; title = "Share Torrent File"; ObjectID = "8t6-wh-5UW"; */
-"8t6-wh-5UW.title" = "Share Torrent File";
+"8t6-wh-5UW.title" = "Dela torrentfil";
 
 /* Class = "NSMenu"; title = "Share Torrent File"; ObjectID = "Cay-iU-bH4"; */
-"Cay-iU-bH4.title" = "Share Torrent File";
+"Cay-iU-bH4.title" = "Dela torrentfil";
 
 /* Class = "NSMenu"; title = "Share Torrent File"; ObjectID = "lvU-Va-GzM"; */
-"lvU-Va-GzM.title" = "Share Torrent File";
+"lvU-Va-GzM.title" = "Dela torrentfil";
 
 /* Class = "NSMenuItem"; title = "Share Torrent File"; ObjectID = "s5v-VO-G2y"; */
-"s5v-VO-G2y.title" = "Share Torrent File";
+"s5v-VO-G2y.title" = "Dela torrentfil";
 
 /* Class = "NSMenuItem"; title = "ETA"; ObjectID = "zLF-YR-Oq6"; */
-"zLF-YR-Oq6.title" = "ETA";
+"zLF-YR-Oq6.title" = "Uppskattad kvarvarande tid";

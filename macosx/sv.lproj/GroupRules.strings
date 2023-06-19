@@ -3,61 +3,61 @@
 "11.title" = "OK";
 
 /* Class = "NSButtonCell"; title = "Cancel"; ObjectID = "12"; */
-"12.title" = "Cancel";
+"12.title" = "Avbryt";
 
 /* Class = "NSMenuItem"; title = "begins with"; ObjectID = "40"; */
-"40.title" = "begins with";
+"40.title" = "börjar med";
 
 /* Class = "NSMenuItem"; title = "is"; ObjectID = "42"; */
-"42.title" = "is";
+"42.title" = "är";
 
 /* Class = "NSMenuItem"; title = "of the following are true"; ObjectID = "49"; */
-"49.title" = "of the following are true";
+"49.title" = "av följande är sant";
 
 /* Class = "NSMenuItem"; title = "Any"; ObjectID = "50"; */
-"50.title" = "Any";
+"50.title" = "Något";
 
 /* Class = "NSMenuItem"; title = "All"; ObjectID = "51"; */
-"51.title" = "All";
+"51.title" = "Allt";
 
 /* Class = "NSMenuItem"; title = "Name"; ObjectID = "100"; */
-"100.title" = "Name";
+"100.title" = "Namn";
 
 /* Class = "NSMenuItem"; title = "Comment"; ObjectID = "102"; */
-"102.title" = "Comment";
+"102.title" = "Kommentar";
 
 /* Class = "NSMenuItem"; title = "matches"; ObjectID = "118"; */
-"118.title" = "matches";
+"118.title" = "matchar";
 
 /* Class = "NSMenuItem"; title = "contains"; ObjectID = "153"; */
-"153.title" = "contains";
+"153.title" = "innehåller";
 
 /* Class = "NSMenuItem"; title = "begins with"; ObjectID = "154"; */
-"154.title" = "begins with";
+"154.title" = "börjar med";
 
 /* Class = "NSMenuItem"; title = "ends with"; ObjectID = "155"; */
-"155.title" = "ends with";
+"155.title" = "slutar med";
 
 /* Class = "NSMenuItem"; title = "is"; ObjectID = "156"; */
-"156.title" = "is";
+"156.title" = "är";
 
 /* Class = "NSMenuItem"; title = "Any File"; ObjectID = "161"; */
-"161.title" = "Any File";
+"161.title" = "Någon fil";
 
 /* Class = "NSMenuItem"; title = "Any Tracker"; ObjectID = "162"; */
-"162.title" = "Any Tracker";
+"162.title" = "Någon tracker";
 
 /* Class = "NSMenuItem"; title = "ends with"; ObjectID = "163"; */
-"163.title" = "ends with";
+"163.title" = "slutar med";
 
 /* Class = "NSMenuItem"; title = "is not"; ObjectID = "164"; */
-"164.title" = "is not";
+"164.title" = "är inte";
 
 /* Class = "NSMenuItem"; title = "contains"; ObjectID = "165"; */
-"165.title" = "contains";
+"165.title" = "innehåller";
 
 /* Class = "NSMenuItem"; title = "None"; ObjectID = "166"; */
-"166.title" = "None";
+"166.title" = "Inget";
 
 /* Class = "NSMenuItem"; title = "matches"; ObjectID = "167"; */
-"167.title" = "matches";
+"167.title" = "matchar";
