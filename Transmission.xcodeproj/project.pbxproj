@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -621,6 +621,20 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		03CB497D2A3F884A0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		03CB497E2A3F884A0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/PrefsWindow.strings; sourceTree = "<group>"; };
+		03CB497F2A3F884A0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Creator.strings; sourceTree = "<group>"; };
+		03CB49802A3F884A0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/AddWindow.strings; sourceTree = "<group>"; };
+		03CB49812A3F884A0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/AddMagnetWindow.strings; sourceTree = "<group>"; };
+		03CB49822A3F884A0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/GroupRules.strings; sourceTree = "<group>"; };
+		03CB49832A3F884A0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoGeneralView.strings; sourceTree = "<group>"; };
+		03CB49842A3F884B0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoActivityView.strings; sourceTree = "<group>"; };
+		03CB49852A3F884B0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoOptionsView.strings; sourceTree = "<group>"; };
+		03CB49862A3F884B0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/GlobalOptionsPopover.strings; sourceTree = "<group>"; };
+		03CB49872A3F884B0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		03CB49882A3F884B0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		03CB49892A3F884B0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/Localizable.strings; sourceTree = "<group>"; };
+		03CB498A2A3F884B0051D598 /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0A6169A50FE5C9A200C66CE6 /* bitfield.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bitfield.cc; sourceTree = "<group>"; };
 		0A6169A60FE5C9A200C66CE6 /* bitfield.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bitfield.h; sourceTree = "<group>"; };
 		0A89346B736DBCF81F3A4851 /* torrent-metainfo.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = "torrent-metainfo.cc"; sourceTree = "<group>"; };
@@ -2835,6 +2849,7 @@
 				"pt-PT",
 				pt_PT,
 				Base,
+				sv,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Transmission */;
 			projectDirPath = "";
@@ -3487,6 +3502,7 @@
 				A2613F9811B3383200472893 /* pt_PT */,
 				A263C5671560A4210082A3D1 /* da */,
 				A2A9D11A187DD75200C52A1F /* tr */,
+				03CB49882A3F884B0051D598 /* sv */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3504,6 +3520,7 @@
 				45C688E82875B19000A2EB25 /* ru */,
 				45C688E92875B19200A2EB25 /* es */,
 				45C688EA2875B19500A2EB25 /* tr */,
+				03CB49842A3F884B0051D598 /* sv */,
 			);
 			name = InfoActivityView.xib;
 			sourceTree = "<group>";
@@ -3521,6 +3538,7 @@
 				45C688DF2875B06D00A2EB25 /* ru */,
 				45C688E02875B06F00A2EB25 /* es */,
 				45C688E12875B07300A2EB25 /* tr */,
+				03CB49832A3F884A0051D598 /* sv */,
 			);
 			name = InfoGeneralView.xib;
 			sourceTree = "<group>";
@@ -3538,6 +3556,7 @@
 				45C688F12875B2CA00A2EB25 /* ru */,
 				45C688F22875B2CD00A2EB25 /* es */,
 				45C688F32875B2CF00A2EB25 /* tr */,
+				03CB49852A3F884B0051D598 /* sv */,
 			);
 			name = InfoOptionsView.xib;
 			sourceTree = "<group>";
@@ -3555,6 +3574,7 @@
 				45C688D62875AE0500A2EB25 /* tr */,
 				45C688D72875AE0800A2EB25 /* fr */,
 				45C688D82875AE0C00A2EB25 /* nl */,
+				03CB49822A3F884A0051D598 /* sv */,
 			);
 			name = GroupRules.xib;
 			sourceTree = "<group>";
@@ -3572,6 +3592,7 @@
 				45C688CD2875AC8D00A2EB25 /* ru */,
 				45C688CE2875AC8F00A2EB25 /* es */,
 				45C688CF2875AC9200A2EB25 /* tr */,
+				03CB49812A3F884A0051D598 /* sv */,
 			);
 			name = AddMagnetWindow.xib;
 			sourceTree = "<group>";
@@ -3589,6 +3610,7 @@
 				45C688FA2875B40300A2EB25 /* ru */,
 				45C688FB2875B40600A2EB25 /* es */,
 				45C688FC2875B40900A2EB25 /* tr */,
+				03CB49862A3F884B0051D598 /* sv */,
 			);
 			name = GlobalOptionsPopover.xib;
 			sourceTree = "<group>";
@@ -3606,6 +3628,7 @@
 				A2613F9911B3383200472893 /* pt_PT */,
 				A263C5661560A3CF0082A3D1 /* da */,
 				A2A9D119187DD75100C52A1F /* tr */,
+				03CB49872A3F884B0051D598 /* sv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3623,6 +3646,7 @@
 				455C093F287767350003A078 /* ru */,
 				455C0940287767380003A078 /* es */,
 				455C09412877673A0003A078 /* tr */,
+				03CB497E2A3F884A0051D598 /* sv */,
 			);
 			name = PrefsWindow.xib;
 			sourceTree = "<group>";
@@ -3640,6 +3664,7 @@
 				457DC1E72873931500ED04C4 /* ru */,
 				457DC1E82873931900ED04C4 /* es */,
 				457DC1E92873931E00ED04C4 /* tr */,
+				03CB497D2A3F884A0051D598 /* sv */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -3657,6 +3682,7 @@
 				A27F4483160B4AF50048CD4C /* fr */,
 				A28B3A2D160E1BC900D4A2BC /* pt_PT */,
 				A2CA772B187F063A00154956 /* tr */,
+				03CB49892A3F884B0051D598 /* sv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -3674,6 +3700,7 @@
 				45C6890328762FFD00A2EB25 /* ru */,
 				45C6890428762FFF00A2EB25 /* es */,
 				45C689052876300200A2EB25 /* tr */,
+				03CB49802A3F884A0051D598 /* sv */,
 			);
 			name = AddWindow.xib;
 			sourceTree = "<group>";
@@ -3691,6 +3718,7 @@
 				45C6890C28763C3F00A2EB25 /* ru */,
 				45C6890D28763C4300A2EB25 /* es */,
 				45C6890E28763C4600A2EB25 /* tr */,
+				03CB497F2A3F884A0051D598 /* sv */,
 			);
 			name = Creator.xib;
 			sourceTree = "<group>";
@@ -3699,6 +3727,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A2F35BC715C5A0A100EBF632 /* en */,
+				03CB498A2A3F884B0051D598 /* sv */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -3780,7 +3809,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = macosx/Transmission.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = macosx;
 				HEADER_SEARCH_PATHS = (
@@ -3795,6 +3826,7 @@
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = Transmission;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -3809,13 +3841,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = transmissioncli;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -3830,7 +3865,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
@@ -3841,6 +3878,7 @@
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "transmission-daemon";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -3855,13 +3893,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4032,13 +4073,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = transmissioncli;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4055,7 +4099,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = macosx/Transmission.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = macosx;
 				HEADER_SEARCH_PATHS = (
@@ -4070,6 +4116,7 @@
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = Transmission;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4256,7 +4303,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = macosx/Transmission.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = macosx;
 				HEADER_SEARCH_PATHS = (
@@ -4271,6 +4320,7 @@
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = Transmission;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4285,13 +4335,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = transmissioncli;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4358,7 +4411,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
@@ -4369,6 +4424,7 @@
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "transmission-daemon";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4383,13 +4439,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4454,6 +4513,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				GCC_PREFIX_HEADER = "macosx/QuickLookPlugin/QuickLookPlugin-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4469,6 +4531,7 @@
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.m0k.transmission.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4483,6 +4546,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				GCC_PREFIX_HEADER = "macosx/QuickLookPlugin/QuickLookPlugin-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4498,6 +4564,7 @@
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.m0k.transmission.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4512,6 +4579,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				GCC_PREFIX_HEADER = "macosx/QuickLookPlugin/QuickLookPlugin-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4527,6 +4597,7 @@
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.m0k.transmission.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4585,7 +4656,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
@@ -4596,6 +4669,7 @@
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "transmission-daemon";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4610,13 +4684,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4802,13 +4879,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4823,13 +4903,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4844,13 +4927,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4865,13 +4951,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4886,13 +4975,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4907,13 +4999,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4928,13 +5023,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4949,13 +5047,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
@@ -4970,13 +5071,16 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = A27DU4WWME;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					.,
 				);
 				OTHER_LDFLAGS = "-lc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SYSTEM_HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"third-party/fmt/include",
