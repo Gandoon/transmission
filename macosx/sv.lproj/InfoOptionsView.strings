@@ -1,0 +1,75 @@
+
+/* Class = "NSTextFieldCell"; title = "Seeding Limits"; ObjectID = "22"; */
+"22.title" = "Seeding Limits";
+
+/* Class = "NSTextFieldCell"; title = "Transfer Bandwidth"; ObjectID = "23"; */
+"23.title" = "Transfer Bandwidth";
+
+/* Class = "NSTextFieldCell"; title = "KB/s"; ObjectID = "26"; */
+"26.title" = "KB/s";
+
+/* Class = "NSTextFieldCell"; title = "KB/s"; ObjectID = "29"; */
+"29.title" = "KB/s";
+
+/* Class = "NSTextFieldCell"; title = "Ratio:"; ObjectID = "30"; */
+"30.title" = "Ratio:";
+
+/* Class = "NSTextFieldCell"; title = "Advanced"; ObjectID = "31"; */
+"31.title" = "Advanced";
+
+/* Class = "NSTextFieldCell"; title = "Maximum connections:"; ObjectID = "32"; */
+"32.title" = "Maximum connections:";
+
+/* Class = "NSTextFieldCell"; title = "peers"; ObjectID = "35"; */
+"35.title" = "peers";
+
+/* Class = "NSMenuItem"; title = "Unlimited"; ObjectID = "40"; */
+"40.title" = "Unlimited";
+
+/* Class = "NSMenuItem"; title = "Global Setting"; ObjectID = "41"; */
+"41.title" = "Global Setting";
+
+/* Class = "NSMenuItem"; title = "Stop at Ratio"; ObjectID = "42"; */
+"42.title" = "Stop at Ratio";
+
+/* Class = "NSButtonCell"; title = "Limit Upload:"; ObjectID = "43"; */
+"43.title" = "Limit Upload:";
+
+/* Class = "NSButtonCell"; title = "Limit Download:"; ObjectID = "44"; */
+"44.title" = "Limit Download:";
+
+/* Class = "NSButtonCell"; title = "Stay within the global bandwidth limits"; ObjectID = "45"; */
+"45.title" = "Stay within the global bandwidth limits";
+
+/* Class = "NSTextFieldCell"; title = "Priority"; ObjectID = "46"; */
+"46.title" = "Priority";
+
+/* Class = "NSTextFieldCell"; title = "Transfer Priority:"; ObjectID = "47"; */
+"47.title" = "Transfer Priority:";
+
+/* Class = "NSMenuItem"; title = "Low"; ObjectID = "50"; */
+"50.title" = "Low";
+
+/* Class = "NSMenuItem"; title = "Normal"; ObjectID = "51"; */
+"51.title" = "Normal";
+
+/* Class = "NSMenuItem"; title = "High"; ObjectID = "52"; */
+"52.title" = "High";
+
+/* Class = "NSMenuItem"; title = "Stop When Inactive"; ObjectID = "86"; */
+"86.title" = "Stop When Inactive";
+
+/* Class = "NSMenuItem"; title = "Global Setting"; ObjectID = "87"; */
+"87.title" = "Global Setting";
+
+/* Class = "NSMenuItem"; title = "Unlimited"; ObjectID = "88"; */
+"88.title" = "Unlimited";
+
+/* Class = "NSTextFieldCell"; title = "Inactivity:"; ObjectID = "89"; */
+"89.title" = "Inactivity:";
+
+/* Class = "NSTextFieldCell"; title = "minutes"; ObjectID = "98"; */
+"98.title" = "minutes";
+
+/* Class = "NSButtonCell"; title = "Remove from the transfer list when seeding completes"; ObjectID = "114"; */
+"114.title" = "Remove from the transfer list when seeding completes";

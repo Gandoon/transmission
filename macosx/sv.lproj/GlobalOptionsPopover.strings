@@ -1,0 +1,33 @@
+
+/* Class = "NSTextFieldCell"; title = "Seeding Limits"; ObjectID = "22"; */
+"22.title" = "Begränsningar för seedning";
+
+/* Class = "NSTextFieldCell"; title = "Transfer Bandwidth"; ObjectID = "23"; */
+"23.title" = "Överföringsbandbredd";
+
+/* Class = "NSTextFieldCell"; title = "KB/s"; ObjectID = "26"; */
+"26.title" = "kB/s";
+
+/* Class = "NSButtonCell"; title = "Limit Upload:"; ObjectID = "43"; */
+"43.title" = "Begränsning uppladdning:";
+
+/* Class = "NSButtonCell"; title = "Limit Download:"; ObjectID = "44"; */
+"44.title" = "Begränsning nedladdning:";
+
+/* Class = "NSTextFieldCell"; title = "minutes"; ObjectID = "98"; */
+"98.title" = "minuter";
+
+/* Class = "NSButtonCell"; title = "Status of selected files"; ObjectID = "114"; */
+"114.title" = "Status för valda filer";
+
+/* Class = "NSButtonCell"; title = "Stop seeding at ratio:"; ObjectID = "116"; */
+"116.title" = "Sluta seeda vid delningsförhållande:";
+
+/* Class = "NSButtonCell"; title = "Stop seeding when inactive for:"; ObjectID = "118"; */
+"118.title" = "Sluta seeda vid inaktivitet i:";
+
+/* Class = "NSButtonCell"; title = "Remaining time"; ObjectID = "130"; */
+"130.title" = "Återstående tid";
+
+/* Class = "NSTextFieldCell"; title = "KB/s"; ObjectID = "180"; */
+"180.title" = "kB/s";
