@@ -15,7 +15,7 @@
 "72.title" = "Öppna torrentfil…";
 
 /* Class = "NSMenuItem"; title = "Close Window"; ObjectID = "73"; */
-"73.title" = "Stäng förnster";
+"73.title" = "Stäng fönster";
 
 /* Class = "NSMenu"; title = "File"; ObjectID = "81"; */
 "81.title" = "Arkiv";
