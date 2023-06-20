@@ -192,10 +192,10 @@
 "1688.title" = "Zooma";
 
 /* Class = "NSMenuItem"; title = "Next Inspector Tab"; ObjectID = "1693"; */
-"1693.title" = "Nästa Inspector-tab";
+"1693.title" = "Nästa informationsflik";
 
 /* Class = "NSMenuItem"; title = "Previous Inspector Tab"; ObjectID = "1694"; */
-"1694.title" = "Föregående Inspector-tab";
+"1694.title" = "Föregående informationsflik";
 
 /* Class = "NSMenuItem"; title = "Transmission"; ObjectID = "1696"; */
 "1696.title" = "Transmission";
