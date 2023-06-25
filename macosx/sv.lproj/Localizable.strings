@@ -592,11 +592,11 @@
 "OK" = "OK";
 
 /* Remove completed confirm panel -> message */
-"Once removed, continuing the transfer will require the torrent file or magnet link." = "Når den er blevet fjernet kræver det torrent-filen eller magnet-linket for at fortsætte overførslen.";
+"Once removed, continuing the transfer will require the torrent file or magnet link." = "När den är borttagen kommer torrentfilen eller magnetlänken krävas för att återuppta överföringen.";
 
 /* Removal confirm panel -> message part 2
    Remove completed confirm panel -> message */
-"Once removed, continuing the transfers will require the torrent files or magnet links." = "När de tagits bort kommer torrentfilerna eller magnetlänkarna krävas för att fortsätta överföringarna.";
+"Once removed, continuing the transfers will require the torrent files or magnet links." = "När de är borttagna kommer torrentfilerna eller magnetlänkarna krävas för att återuppta överföringarna.";
 
 /* Remove trackers alert -> message */
 "Once removed, Transmission will no longer attempt to contact it. This cannot be undone." = "Om denna tas bort kommer programmet inte längere försöka kontakta den. Detta kan inte ångras.";
@@ -749,7 +749,7 @@
    Remove completed confirm panel -> button
    Remove toolbar item -> label
    Remove trackers alert -> button */
-"Remove" = "Fjern";
+"Remove" = "Ta bort";
 
 /* Main window -> 3rd bottom left button (remove all) tooltip */
 "Remove all transfers that have completed seeding." = "Ta bort alla överföringar som är färdiga med att dela.";
