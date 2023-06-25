@@ -1134,5 +1134,5 @@
 "You unchoked the peer, but the peer is not interested" = "Du avblockerade motparten, men motparten är inte intresserad";
 
 /* Inspector -> peer -> status */
-"You want to download, but peer does not want to send (interested and choked)" = "Du vill ladda ned, men motparten vill intee skicka (intresserad och blockerad)";
+"You want to download, but peer does not want to send (interested and choked)" = "Du vill ladda ned, men motparten vill inte skicka (intresserad och blockerad)";
 
