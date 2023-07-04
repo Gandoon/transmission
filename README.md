@@ -9,6 +9,12 @@ Transmission is a fast, easy, and free BitTorrent client. It comes in several fl
   
 Visit https://transmissionbt.com/ for more information.
 
+## This fork
+
+This is an independent localisation of Transmission to Swedish. The official process of localisation is somewhat slow, and before I learned how it works, I had already localised it for my own usage. This translation was offered to the main project but the project was not interested in it. Hence, I publish it here for anyone interested to use. The rest of the project follows the main repository for now.
+
+Om du använder denna utgåva och hittar några svenska översättningar du känner inte är helt rätt. Hör av dig så skall jag ta dina synpunkter i beaktande.
+
 ## Documentation
 
 [Transmission's documentation](docs/README.md) is currently out-of-date, but the team has recently begun a new project to update it and is looking for volunteers. If you're interested, please feel free to submit pull requests!
