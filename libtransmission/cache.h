@@ -33,11 +33,6 @@ public:
 
     int set_limit(size_t new_limit);
 
-    [[nodiscard]] constexpr auto get_limit() const noexcept
-    {
-        return max_bytes_;
-    }
-
     // @return any error code from cacheTrim()
     int write_block(tr_torrent_id_t tor, tr_block_index_t block, std::unique_ptr<BlockData> writeme);
 
@@ -57,18 +52,6 @@ private:
 
     using Blocks = std::vector<CacheBlock>;
     using CIter = Blocks::const_iterator;
-
-    struct CompareCacheBlockByKey
-    {
-        [[nodiscard]] constexpr bool operator()(Key const& key, CacheBlock const& block)
-        {
-            return key < block.key;
-        }
-        [[nodiscard]] constexpr bool operator()(CacheBlock const& block, Key const& key)
-        {
-            return block.key < key;
-        }
-    };
 
     [[nodiscard]] static Key make_key(tr_torrent const* torrent, tr_block_info::Location loc) noexcept;
 
@@ -96,10 +79,21 @@ private:
 
     Blocks blocks_ = {};
     size_t max_blocks_ = 0;
-    size_t max_bytes_ = 0;
 
     mutable size_t disk_writes_ = 0;
     mutable size_t disk_write_bytes_ = 0;
     mutable size_t cache_writes_ = 0;
     mutable size_t cache_write_bytes_ = 0;
+
+    static constexpr struct
+    {
+        [[nodiscard]] constexpr bool operator()(Key const& key, CacheBlock const& block)
+        {
+            return key < block.key;
+        }
+        [[nodiscard]] constexpr bool operator()(CacheBlock const& block, Key const& key)
+        {
+            return block.key < key;
+        }
+    } CompareCacheBlockByKey{};
 };
