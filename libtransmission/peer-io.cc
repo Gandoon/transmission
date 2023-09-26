@@ -6,26 +6,36 @@
 #include <array>
 #include <cerrno>
 #include <cstdint>
-#include <cstring>
-#include <string>
+#include <type_traits>
+
+#ifdef _WIN32
+#include <ws2tcpip.h>
+#else
+#include <arpa/inet.h> // ntohl, ntohs
+#endif
 
 #include <event2/event.h>
-#include <event2/bufferevent.h>
 
 #include <libutp/utp.h>
 
 #include <fmt/core.h>
 
+#include <small/map.hpp>
+
 #include "libtransmission/transmission.h"
 
-#include "libtransmission/session.h"
 #include "libtransmission/bandwidth.h"
+#include "libtransmission/block-info.h" // tr_block_info
+#include "libtransmission/error.h" // tr_error_clear, tr_error_s...
 #include "libtransmission/log.h"
 #include "libtransmission/net.h"
 #include "libtransmission/peer-io.h"
+#include "libtransmission/peer-socket.h" // tr_peer_socket, tr_netOpen...
+#include "libtransmission/session.h"
 #include "libtransmission/tr-assert.h"
-#include "libtransmission/tr-utp.h"
 #include "libtransmission/utils.h" // for _()
+
+struct sockaddr;
 
 #ifdef _WIN32
 #undef EAGAIN
@@ -112,44 +122,68 @@ std::shared_ptr<tr_peerIo> tr_peerIo::new_incoming(tr_session* session, tr_bandw
 std::shared_ptr<tr_peerIo> tr_peerIo::new_outgoing(
     tr_session* session,
     tr_bandwidth* parent,
-    tr_address const& addr,
-    tr_port port,
+    tr_socket_address const& socket_address,
     tr_sha1_digest_t const& info_hash,
     bool is_seed,
     bool utp)
 {
+    using preferred_key_t = std::underlying_type_t<tr_preferred_transport>;
+    auto const preferred = session->preferred_transport();
+
     TR_ASSERT(!tr_peer_socket::limit_reached(session));
     TR_ASSERT(session != nullptr);
-    TR_ASSERT(addr.is_valid());
+    TR_ASSERT(socket_address.is_valid());
     TR_ASSERT(utp || session->allowsTCP());
 
-    if (!addr.is_valid_for_peers(port))
+    if (!socket_address.is_valid_for_peers())
     {
         return {};
     }
 
     auto peer_io = tr_peerIo::create(session, parent, &info_hash, false, is_seed);
-
+    auto const func = small::max_size_map<preferred_key_t, std::function<bool()>, TR_NUM_PREFERRED_TRANSPORT>{
+        { TR_PREFER_UTP,
+          [&]()
+          {
 #ifdef WITH_UTP
-    if (utp)
-    {
-        auto* const sock = utp_create_socket(session->utp_context);
-        utp_set_userdata(sock, peer_io.get());
-        peer_io->set_socket(tr_peer_socket{ addr, port, sock });
+              if (utp)
+              {
+                  auto* const sock = utp_create_socket(session->utp_context);
+                  utp_set_userdata(sock, peer_io.get());
+                  peer_io->set_socket(tr_peer_socket{ socket_address, sock });
 
-        auto const [ss, sslen] = addr.to_sockaddr(port);
-        if (utp_connect(sock, reinterpret_cast<sockaddr const*>(&ss), sslen) == 0)
-        {
-            return peer_io;
-        }
-    }
+                  auto const [ss, sslen] = socket_address.to_sockaddr();
+                  if (utp_connect(sock, reinterpret_cast<sockaddr const*>(&ss), sslen) == 0)
+                  {
+                      return true;
+                  }
+              }
 #endif
+              return false;
+          } },
+        { TR_PREFER_TCP,
+          [&]()
+          {
+              if (!peer_io->socket_.is_valid())
+              {
+                  if (auto sock = tr_netOpenPeerSocket(session, socket_address, is_seed); sock.is_valid())
+                  {
+                      peer_io->set_socket(std::move(sock));
+                      return true;
+                  }
+              }
+              return false;
+          } }
+    };
 
-    if (!peer_io->socket_.is_valid())
+    if (func.at(preferred)())
     {
-        if (auto sock = tr_netOpenPeerSocket(session, addr, port, is_seed); sock.is_valid())
+        return peer_io;
+    }
+    for (preferred_key_t i = 0U; i < TR_NUM_PREFERRED_TRANSPORT; ++i)
+    {
+        if (i != preferred && func.at(i)())
         {
-            peer_io->set_socket(std::move(sock));
             return peer_io;
         }
     }
@@ -222,8 +256,7 @@ bool tr_peerIo::reconnect()
         return false;
     }
 
-    auto const [addr, port] = socket_address();
-    socket_ = tr_netOpenPeerSocket(session_, addr, port, is_seed());
+    socket_ = tr_netOpenPeerSocket(session_, socket_address(), is_seed());
 
     if (!socket_.is_tcp())
     {

@@ -6,11 +6,11 @@
 #include <algorithm>
 #include <cerrno> // for ENOENT
 #include <cmath>
+#include <ctime> // time()
 #include <optional>
 #include <set>
 #include <string>
 #include <string_view>
-#include <thread>
 #include <utility>
 #include <vector>
 
@@ -18,13 +18,17 @@
 
 #include "libtransmission/transmission.h"
 
+#include "libtransmission/block-info.h" // tr_block_info
 #include "libtransmission/crypto-utils.h"
 #include "libtransmission/error.h"
 #include "libtransmission/file.h"
 #include "libtransmission/log.h"
 #include "libtransmission/makemeta.h"
+#include "libtransmission/quark.h" // TR_KEY_length, TR_KEY_a...
 #include "libtransmission/session.h" // TR_NAME
+#include "libtransmission/torrent-files.h"
 #include "libtransmission/tr-assert.h"
+#include "libtransmission/tr-strbuf.h" // tr_pathbuf
 #include "libtransmission/utils.h" // for _()
 #include "libtransmission/variant.h"
 #include "libtransmission/version.h"
@@ -373,9 +377,7 @@ std::string tr_metainfo_builder::benc(tr_error** error) const
         tr_variantDictAddStr(info_dict, TR_KEY_source, source_);
     }
 
-    auto ret = tr_variantToStr(&top, TR_VARIANT_FMT_BENC);
-    tr_variantClear(&top);
-    return ret;
+    return tr_variant_serde::benc().to_string(top);
 }
 
 uint32_t tr_metainfo_builder::default_piece_size(uint64_t total_size) noexcept

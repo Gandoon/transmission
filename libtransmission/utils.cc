@@ -11,7 +11,7 @@
 #include <cstdint> // SIZE_MAX
 #include <cstdlib> // getenv()
 #include <cstring> /* strerror() */
-#include <ctime> // nanosleep()
+#include <exception>
 #include <iostream>
 #include <iterator> // for std::back_inserter
 #include <locale>
@@ -19,22 +19,22 @@
 #include <set>
 #include <string>
 #include <string_view>
-#include <tuple>
+#include <system_error>
 #include <vector>
 
 #ifdef _WIN32
 #include <windows.h> /* Sleep(), GetEnvironmentVariable() */
+#include <ws2tcpip.h> /* htonl(), ntohl() */
 
 #include <shellapi.h> /* CommandLineToArgv() */
-#include <ws2tcpip.h> /* WSAStartup() */
-#endif
-
-#ifndef _WIN32
-#include <sys/stat.h> // mode_t
+#else
+#include <arpa/inet.h>
 #endif
 
 #define UTF_CPP_CPLUSPLUS 201703L
 #include <utf8.h>
+
+#include <curl/curl.h>
 
 #include <fmt/core.h>
 
@@ -48,7 +48,7 @@
 #include "libtransmission/file.h"
 #include "libtransmission/log.h"
 #include "libtransmission/mime-types.h"
-#include "libtransmission/net.h" // ntohl()
+#include "libtransmission/quark.h"
 #include "libtransmission/tr-assert.h"
 #include "libtransmission/tr-strbuf.h"
 #include "libtransmission/utils.h"
@@ -274,7 +274,7 @@ double tr_getRatio(uint64_t numerator, uint64_t denominator)
 
 // ---
 
-#ifndef __APPLE__
+#if !(defined(__APPLE__) && defined(__clang__))
 
 std::string tr_strv_convert_utf8(std::string_view sv)
 {
@@ -851,34 +851,30 @@ std::string tr_formatter_mem_B(size_t bytes_per_second)
     return formatter_get_size_str(mem_units, std::data(buf), bytes_per_second, std::size(buf));
 }
 
-void tr_formatter_get_units(void* vdict)
+tr_variant tr_formatter_get_units()
 {
     using namespace formatter_impl;
 
-    auto* dict = static_cast<tr_variant*>(vdict);
-
-    tr_variantDictReserve(dict, 6);
-
-    tr_variantDictAddInt(dict, TR_KEY_memory_bytes, mem_units[TR_FMT_KB].value);
-    tr_variant* l = tr_variantDictAddList(dict, TR_KEY_memory_units, std::size(mem_units));
-    for (auto const& unit : mem_units)
+    auto const make_units_vec = [](formatter_units const& units)
     {
-        tr_variantListAddStr(l, std::data(unit.name));
-    }
+        auto units_vec = tr_variant::Vector{};
+        units_vec.reserve(std::size(units));
+        std::transform(
+            std::begin(units),
+            std::end(units),
+            std::back_inserter(units_vec),
+            [](auto const& unit) { return std::data(unit.name); });
+        return units_vec;
+    };
 
-    tr_variantDictAddInt(dict, TR_KEY_size_bytes, size_units[TR_FMT_KB].value);
-    l = tr_variantDictAddList(dict, TR_KEY_size_units, std::size(size_units));
-    for (auto const& unit : size_units)
-    {
-        tr_variantListAddStr(l, std::data(unit.name));
-    }
-
-    tr_variantDictAddInt(dict, TR_KEY_speed_bytes, speed_units[TR_FMT_KB].value);
-    l = tr_variantDictAddList(dict, TR_KEY_speed_units, std::size(speed_units));
-    for (auto const& unit : speed_units)
-    {
-        tr_variantListAddStr(l, std::data(unit.name));
-    }
+    auto units_map = tr_variant::Map{ 6U };
+    units_map.try_emplace(TR_KEY_memory_bytes, mem_units[TR_FMT_KB].value);
+    units_map.try_emplace(TR_KEY_memory_units, make_units_vec(mem_units));
+    units_map.try_emplace(TR_KEY_size_bytes, size_units[TR_FMT_KB].value);
+    units_map.try_emplace(TR_KEY_size_units, make_units_vec(size_units));
+    units_map.try_emplace(TR_KEY_speed_bytes, speed_units[TR_FMT_KB].value);
+    units_map.try_emplace(TR_KEY_speed_units, make_units_vec(speed_units));
+    return tr_variant{ std::move(units_map) };
 }
 
 // --- ENVIRONMENT
@@ -929,19 +925,36 @@ std::string tr_env_get_string(std::string_view key, std::string_view default_val
 
 // ---
 
-void tr_net_init()
+tr_net_init_mgr::tr_net_init_mgr()
 {
-#ifdef _WIN32
-    static bool initialized = false;
-
-    if (!initialized)
+    // try to init curl with default settings (currently ssl support + win32 sockets)
+    // but if that fails, we need to init win32 sockets as a bare minimum
+    if (curl_global_init(CURL_GLOBAL_ALL) != CURLE_OK)
     {
-        WSADATA wsaData;
-        WSAStartup(MAKEWORD(2, 2), &wsaData);
-
-        initialized = true;
+        curl_global_init(CURL_GLOBAL_WIN32);
     }
-#endif
+}
+
+tr_net_init_mgr::~tr_net_init_mgr()
+{
+    curl_global_cleanup();
+}
+
+std::unique_ptr<tr_net_init_mgr> tr_net_init_mgr::create()
+{
+    if (!initialised)
+    {
+        initialised = true;
+        return std::unique_ptr<tr_net_init_mgr>{ new tr_net_init_mgr };
+    }
+    return {};
+}
+
+bool tr_net_init_mgr::initialised = false;
+
+std::unique_ptr<tr_net_init_mgr> tr_lib_init()
+{
+    return tr_net_init_mgr::create();
 }
 
 // --- mime-type

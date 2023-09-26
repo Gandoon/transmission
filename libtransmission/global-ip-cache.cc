@@ -31,24 +31,15 @@ using namespace std::literals;
 static_assert(TR_AF_INET == 0);
 static_assert(TR_AF_INET6 == 1);
 
-auto TR_CONSTEXPR23 protocol_str(tr_address_type type) noexcept
-{
-    /* TODO: very slight performance nit
-     * - If upgrading to C++20, change Map to a consteval lambda:
-     *   static auto Map = []() consteval { return std::array{ "IPv4"sv, "IPv6"sv }; };
-     * - If upgrading to C++23, change Map to static constexpr
-     *
-     * Ref: https://wg21.link/p2647r1
-     */
-    static auto TR_CONSTEXPR23 map = std::array{ "IPv4"sv, "IPv6"sv };
-    return map[type];
-}
-
 auto constexpr IPQueryServices = std::array{ std::array{ "https://ip4.transmissionbt.com/"sv },
                                              std::array{ "https://ip6.transmissionbt.com/"sv } };
 
 auto constexpr UpkeepInterval = 30min;
 auto constexpr RetryUpkeepInterval = 30s;
+
+// Normally there should only ever be 1 cache instance during the entire program execution
+// This is a counter only to cater for SessionTest.honorsSettings
+std::size_t cache_exists = 0;
 
 } // namespace
 
@@ -77,8 +68,8 @@ namespace global_source_ip_helpers
 
     auto const save = errno;
 
-    auto const [dst_ss, dst_sslen] = dst_addr.to_sockaddr(dst_port);
-    auto const [bind_ss, bind_sslen] = bind_addr.to_sockaddr(tr_port::fromHost(0));
+    auto const [dst_ss, dst_sslen] = tr_socket_address::to_sockaddr(dst_addr, dst_port);
+    auto const [bind_ss, bind_sslen] = tr_socket_address::to_sockaddr(bind_addr, {});
     if (auto const sock = socket(dst_ss.ss_family, SOCK_DGRAM, 0); sock != TR_BAD_SOCKET)
     {
         if (bind(sock, reinterpret_cast<sockaddr const*>(&bind_ss), bind_sslen) == 0)
@@ -89,11 +80,11 @@ namespace global_source_ip_helpers
                 auto src_sslen = socklen_t{ sizeof(src_ss) };
                 if (getsockname(sock, reinterpret_cast<sockaddr*>(&src_ss), &src_sslen) == 0)
                 {
-                    if (auto const addrport = tr_address::from_sockaddr(reinterpret_cast<sockaddr*>(&src_ss)); addrport)
+                    if (auto const addrport = tr_socket_address::from_sockaddr(reinterpret_cast<sockaddr*>(&src_ss)); addrport)
                     {
                         tr_net_close_socket(sock);
                         errno = save;
-                        return addrport->first;
+                        return addrport->address();
                     }
                 }
             }
@@ -112,7 +103,7 @@ namespace global_source_ip_helpers
     // Pick some destination address to pretend to send a packet to
     static auto constexpr DstIP = std::array{ "91.121.74.28"sv, "2001:1890:1112:1::20"sv };
     auto const dst_addr = tr_address::from_string(DstIP[bind_addr.type]);
-    auto const dst_port = tr_port::fromHost(6969);
+    auto const dst_port = tr_port::from_host(6969);
 
     // In order for address selection to work right,
     // this should be a global unicast address, not Teredo or 6to4
@@ -147,6 +138,8 @@ tr_global_ip_cache::tr_global_ip_cache(Mediator& mediator_in)
         upkeep_timers_[i]->set_callback(cb);
         start_timer(type, UpkeepInterval);
     }
+
+    ++cache_exists;
 }
 
 std::unique_ptr<tr_global_ip_cache> tr_global_ip_cache::create(tr_global_ip_cache::Mediator& mediator_in)
@@ -161,10 +154,15 @@ tr_global_ip_cache::~tr_global_ip_cache()
                                          global_addr_mutex_[TR_AF_INET], global_addr_mutex_[TR_AF_INET6],
                                          source_addr_mutex_[TR_AF_INET], source_addr_mutex_[TR_AF_INET6] };
 
-    TR_ASSERT(std::all_of(
-        std::begin(is_updating_),
-        std::end(is_updating_),
-        [](is_updating_t const& v) { return v == is_updating_t::ABORT; }));
+    if (!std::all_of(
+            std::begin(is_updating_),
+            std::end(is_updating_),
+            [](is_updating_t const& v) { return v == is_updating_t::ABORT; }))
+    {
+        tr_logAddDebug("Destructed while some global IP queries were pending.");
+    }
+
+    --cache_exists;
 }
 
 bool tr_global_ip_cache::try_shutdown() noexcept
@@ -194,7 +192,7 @@ tr_address tr_global_ip_cache::bind_addr(tr_address_type type) const noexcept
         {
             return *addr;
         }
-        return type == TR_AF_INET ? tr_address::any_ipv4() : tr_address::any_ipv6();
+        return tr_address::any(type);
     }
 
     TR_ASSERT_MSG(false, "invalid type");
@@ -238,7 +236,13 @@ void tr_global_ip_cache::update_global_addr(tr_address_type type) noexcept
                                                       tr_web::FetchOptions::IPProtocol::V6 };
     auto options = tr_web::FetchOptions{ IPQueryServices[type][ix_service_[type]],
                                          [this, type](tr_web::FetchResponse const& response)
-                                         { this->on_response_ip_query(type, response); },
+                                         {
+                                             // Check to avoid segfault
+                                             if (cache_exists != 0)
+                                             {
+                                                 this->on_response_ip_query(type, response);
+                                             }
+                                         },
                                          nullptr };
     options.ip_proto = IPProtocolMap[type];
     options.sndbuf = 4096;
@@ -258,14 +262,14 @@ void tr_global_ip_cache::update_source_addr(tr_address_type type) noexcept
     }
     TR_ASSERT(is_updating_[type] == is_updating_t::YES);
 
-    auto const protocol = protocol_str(type);
+    auto const protocol = tr_ip_protocol_to_sv(type);
 
     auto err = int{ 0 };
     auto const& source_addr = get_global_source_address(bind_addr(type), err);
     if (source_addr)
     {
         set_source_addr(*source_addr);
-        tr_logAddInfo(fmt::format(
+        tr_logAddDebug(fmt::format(
             _("Successfully updated source {protocol} address to {ip}"),
             fmt::arg("protocol", protocol),
             fmt::arg("ip", source_addr->display_name())));
@@ -292,7 +296,7 @@ void tr_global_ip_cache::on_response_ip_query(tr_address_type type, tr_web::Fetc
     TR_ASSERT(is_updating_[type] == is_updating_t::YES);
     TR_ASSERT(ix_service_[type] < std::size(IPQueryServices[type]));
 
-    auto const protocol = protocol_str(type);
+    auto const protocol = tr_ip_protocol_to_sv(type);
     auto success = false;
 
     if (response.status == 200 /* HTTP_OK */)
@@ -303,7 +307,7 @@ void tr_global_ip_cache::on_response_ip_query(tr_address_type type, tr_web::Fetc
             success = true;
             upkeep_timers_[type]->set_interval(UpkeepInterval);
 
-            tr_logAddInfo(fmt::format(
+            tr_logAddDebug(fmt::format(
                 _("Successfully updated global {type} address to {ip} using {url}"),
                 fmt::arg("type", protocol),
                 fmt::arg("ip", addr->display_name()),
@@ -312,14 +316,14 @@ void tr_global_ip_cache::on_response_ip_query(tr_address_type type, tr_web::Fetc
     }
 
     // Try next IP query URL
-    if (!success && ++ix_service_[type] < std::size(IPQueryServices[type]))
-    {
-        update_global_addr(type);
-        return;
-    }
-
     if (!success)
     {
+        if (++ix_service_[type] < std::size(IPQueryServices[type]))
+        {
+            update_global_addr(type);
+            return;
+        }
+
         tr_logAddDebug(fmt::format("Couldn't obtain global {} address", protocol));
         unset_global_addr(type);
         upkeep_timers_[type]->set_interval(RetryUpkeepInterval);
@@ -333,7 +337,7 @@ void tr_global_ip_cache::unset_global_addr(tr_address_type type) noexcept
 {
     auto const lock = std::lock_guard{ global_addr_mutex_[type] };
     global_addr_[type].reset();
-    tr_logAddTrace(fmt::format("Unset {} global address cache", protocol_str(type)));
+    tr_logAddTrace(fmt::format("Unset {} global address cache", tr_ip_protocol_to_sv(type)));
 }
 
 void tr_global_ip_cache::set_source_addr(tr_address const& addr) noexcept
@@ -347,7 +351,7 @@ void tr_global_ip_cache::unset_addr(tr_address_type type) noexcept
 {
     auto const lock = std::lock_guard{ source_addr_mutex_[type] };
     source_addr_[type].reset();
-    tr_logAddTrace(fmt::format("Unset {} source address cache", protocol_str(type)));
+    tr_logAddTrace(fmt::format("Unset {} source address cache", tr_ip_protocol_to_sv(type)));
 
     // No public internet connectivity means no global IP address
     unset_global_addr(type);

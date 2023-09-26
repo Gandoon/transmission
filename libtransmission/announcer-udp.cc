@@ -4,32 +4,42 @@
 // License text can be found in the licenses/ folder.
 
 #include <algorithm> // for std::find_if()
-#include <climits> // for CHAR_BIT
-#include <cstring> // for memset()
+#include <array>
+#include <chrono> // operator""ms, literals
+#include <climits> // CHAR_BIT
+#include <cstddef> // std::byte
+#include <cstdint> // uint32_t, uint64_t
+#include <cstring> // memcpy()
 #include <ctime>
 #include <future>
 #include <list>
 #include <memory>
+#include <optional>
+#include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #ifdef _WIN32
 #include <ws2tcpip.h>
 #undef gai_strerror
 #define gai_strerror gai_strerrorA
+#else
+#include <netdb.h> // gai_strerror()
+#include <netinet/in.h> // IPPROTO_UDP, in_addr
+#include <sys/socket.h> // sockaddr_storage, AF_INET
 #endif
 
 #include <fmt/core.h>
 
 #define LIBTRANSMISSION_ANNOUNCER_MODULE
 
-#include "libtransmission/transmission.h"
-
 #include "libtransmission/announcer.h"
 #include "libtransmission/announcer-common.h"
 #include "libtransmission/crypto-utils.h" // for tr_rand_obj()
+#include "libtransmission/interned-string.h"
 #include "libtransmission/log.h"
-#include "libtransmission/peer-io.h"
+#include "libtransmission/net.h"
 #include "libtransmission/peer-mgr.h" // for tr_pex::fromCompact4()
 #include "libtransmission/tr-assert.h"
 #include "libtransmission/tr-buffer.h"
@@ -78,9 +88,6 @@ struct tau_scrape_request
         this->response.row_count = in.info_hash_count;
         for (int i = 0; i < this->response.row_count; ++i)
         {
-            this->response.rows[i].seeders = -1;
-            this->response.rows[i].leechers = -1;
-            this->response.rows[i].downloads = -1;
             this->response.rows[i].info_hash = in.info_hash[i];
         }
 
@@ -123,13 +130,8 @@ struct tau_scrape_request
 
         if (action == TAU_ACTION_SCRAPE)
         {
-            for (int i = 0; i < response.row_count; ++i)
+            for (int i = 0; i < response.row_count && std::size(buf) >= sizeof(uint32_t) * 3U; ++i)
             {
-                if (std::size(buf) < sizeof(uint32_t) * 3)
-                {
-                    break;
-                }
-
                 auto& row = response.rows[i];
                 row.seeders = buf.to_uint32();
                 row.downloads = buf.to_uint32();
@@ -173,9 +175,6 @@ struct tau_announce_request
         // https://www.bittorrent.org/beps/bep_0015.html sets key size at 32 bits
         static_assert(sizeof(tr_announce_request::key) * CHAR_BIT == 32);
 
-        response.seeders = -1;
-        response.leechers = -1;
-        response.downloads = -1;
         response.info_hash = in.info_hash;
 
         // build the payload
@@ -324,9 +323,9 @@ struct tau_tracker
         }
         else if (action == TAU_ACTION_ERROR)
         {
-            std::string const errmsg = !std::empty(buf) ? buf.to_string() : _("Connection failed");
-            logdbg(this->key, errmsg);
+            std::string errmsg = !std::empty(buf) ? buf.to_string() : _("Connection failed");
             this->failAll(true, false, errmsg);
+            logdbg(this->key, std::move(errmsg));
         }
 
         this->upkeep();
@@ -647,11 +646,11 @@ public:
             // is it a response to one of this tracker's announces?
             if (auto& reqs = tracker.announces; !std::empty(reqs))
             {
-                auto it = std::find_if(
-                    std::begin(reqs),
-                    std::end(reqs),
-                    [&transaction_id](auto const& req) { return req.transaction_id == transaction_id; });
-                if (it != std::end(reqs))
+                if (auto it = std::find_if(
+                        std::begin(reqs),
+                        std::end(reqs),
+                        [&transaction_id](auto const& req) { return req.transaction_id == transaction_id; });
+                    it != std::end(reqs))
                 {
                     logtrace(tracker.key, fmt::format("{} is an announce request!", transaction_id));
                     auto req = *it;
@@ -664,11 +663,11 @@ public:
             // is it a response to one of this tracker's scrapes?
             if (auto& reqs = tracker.scrapes; !std::empty(reqs))
             {
-                auto it = std::find_if(
-                    std::begin(reqs),
-                    std::end(reqs),
-                    [&transaction_id](auto const& req) { return req.transaction_id == transaction_id; });
-                if (it != std::end(reqs))
+                if (auto it = std::find_if(
+                        std::begin(reqs),
+                        std::end(reqs),
+                        [&transaction_id](auto const& req) { return req.transaction_id == transaction_id; });
+                    it != std::end(reqs))
                 {
                     logtrace(tracker.key, fmt::format("{} is a scrape request!", transaction_id));
                     auto req = *it;
@@ -707,7 +706,7 @@ private:
         }
 
         // we don't have it -- build a new one
-        trackers_.emplace_back(mediator_, key, tr_interned_string(parsed->host), tr_port::fromHost(parsed->port));
+        trackers_.emplace_back(mediator_, key, tr_interned_string(parsed->host), tr_port::from_host(parsed->port));
         auto* const tracker = &trackers_.back();
         logtrace(tracker->key, "New tau_tracker created");
         return tracker;

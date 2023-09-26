@@ -14,9 +14,12 @@
 #include <utility>
 #include <vector>
 
-#ifndef _WIN32
-#include <sys/un.h>
+#ifdef _WIN32
+#include <ws2tcpip.h>
+#else
+#include <sys/socket.h>
 #include <sys/stat.h>
+#include <sys/un.h>
 #include <unistd.h>
 #endif
 
@@ -40,15 +43,14 @@
 #include "libtransmission/quark.h"
 #include "libtransmission/rpc-server.h"
 #include "libtransmission/rpcimpl.h"
-#include "libtransmission/session-id.h"
 #include "libtransmission/session.h"
 #include "libtransmission/timer.h"
-#include "libtransmission/tr-assert.h"
 #include "libtransmission/tr-strbuf.h"
 #include "libtransmission/utils.h"
 #include "libtransmission/variant.h"
 #include "libtransmission/web-utils.h"
-#include "libtransmission/web.h"
+
+struct evbuffer;
 
 /* session-id is used to make cross-site request forgery attacks difficult.
  * Don't disable this feature unless you really know what you're doing!
@@ -117,7 +119,7 @@ class tr_rpc_address
 {
 public:
     tr_rpc_address()
-        : inet_addr_(tr_address::any_ipv4())
+        : inet_addr_(tr_address::any(TR_AF_INET))
     {
     }
 
@@ -156,11 +158,11 @@ public:
             return unix_addr_.to_string();
         }
 
-        if (port.empty())
+        if (std::empty(port))
         {
-            return { inet_addr_.display_name() };
+            return inet_addr_.display_name();
         }
-        return { inet_addr_.display_name(port) };
+        return tr_socket_address::display_name(inet_addr_, port);
     }
 
 private:
@@ -349,7 +351,7 @@ void rpc_response_func(tr_session* /*session*/, tr_variant* content, void* user_
 {
     auto* data = static_cast<struct rpc_response_data*>(user_data);
 
-    auto* const response = make_response(data->req, data->server, tr_variantToStr(content, TR_VARIANT_FMT_JSON_LEAN));
+    auto* const response = make_response(data->req, data->server, tr_variant_serde::json().compact().to_string(*content));
     evhttp_add_header(data->req->output_headers, "Content-Type", "application/json; charset=UTF-8");
     evhttp_send_reply(data->req, HTTP_OK, "OK", response);
     evbuffer_free(response);
@@ -359,19 +361,9 @@ void rpc_response_func(tr_session* /*session*/, tr_variant* content, void* user_
 
 void handle_rpc_from_json(struct evhttp_request* req, tr_rpc_server* server, std::string_view json)
 {
-    auto top = tr_variant{};
-    auto const have_content = tr_variantFromBuf(&top, TR_VARIANT_PARSE_JSON | TR_VARIANT_PARSE_INPLACE, json);
+    auto otop = tr_variant_serde::json().inplace().parse(json);
 
-    tr_rpc_request_exec_json(
-        server->session,
-        have_content ? &top : nullptr,
-        rpc_response_func,
-        new rpc_response_data{ req, server });
-
-    if (have_content)
-    {
-        tr_variantClear(&top);
-    }
+    tr_rpc_request_exec_json(server->session, otop ? &*otop : nullptr, rpc_response_func, new rpc_response_data{ req, server });
 }
 
 void handle_rpc(struct evhttp_request* req, tr_rpc_server* server)
@@ -848,7 +840,7 @@ void tr_rpc_server::set_anti_brute_force_enabled(bool enabled) noexcept
 
 // --- LIFECYCLE
 
-tr_rpc_server::tr_rpc_server(tr_session* session_in, tr_variant* settings)
+tr_rpc_server::tr_rpc_server(tr_session* session_in, tr_variant const& settings)
     : compressor{ libdeflate_alloc_compressor(DeflateLevel), libdeflate_free_compressor }
     , web_client_dir_{ tr_getWebClientDir(session_in) }
     , bind_address_(std::make_unique<class tr_rpc_address>())
@@ -857,18 +849,22 @@ tr_rpc_server::tr_rpc_server(tr_session* session_in, tr_variant* settings)
     load(settings);
 }
 
-void tr_rpc_server::load(tr_variant* src)
+void tr_rpc_server::load(tr_variant const& src)
 {
+    auto const* const src_map = src.get_if<tr_variant::Map>();
+    if (src_map != nullptr)
+    {
 #define V(key, field, type, default_value, comment) \
-    if (auto* const child = tr_variantDictFind(src, key); child != nullptr) \
+    if (auto const iter = src_map->find(key); iter != std::end(*src_map)) \
     { \
-        if (auto val = libtransmission::VariantConverter::load<decltype(field)>(child); val) \
+        if (auto val = libtransmission::VariantConverter::load<decltype(field)>(iter->second); val) \
         { \
             this->field = *val; \
         } \
     }
-    RPC_SETTINGS_FIELDS(V)
+        RPC_SETTINGS_FIELDS(V)
 #undef V
+    }
 
     if (!tr_strv_ends_with(url_, '/'))
     {
@@ -918,23 +914,24 @@ void tr_rpc_server::load(tr_variant* src)
     }
 }
 
-void tr_rpc_server::save(tr_variant* tgt) const
+tr_variant tr_rpc_server::settings() const
 {
+    auto settings = tr_variant::Map{};
 #define V(key, field, type, default_value, comment) \
-    tr_variantDictRemove(tgt, key); \
-    libtransmission::VariantConverter::save<decltype(field)>(tr_variantDictAdd(tgt, key), field);
+    settings.try_emplace(key, libtransmission::VariantConverter::save<decltype(field)>(field));
     RPC_SETTINGS_FIELDS(V)
 #undef V
+    return tr_variant{ std::move(settings) };
 }
 
-void tr_rpc_server::default_settings(tr_variant* tgt){
+tr_variant tr_rpc_server::default_settings()
+{
+    auto settings = tr_variant::Map{};
 #define V(key, field, type, default_value, comment) \
-    { \
-        tr_variantDictRemove(tgt, key); \
-        libtransmission::VariantConverter::save<decltype(field)>(tr_variantDictAdd(tgt, key), default_value); \
-    }
+    settings.try_emplace(key, libtransmission::VariantConverter::save<decltype(field)>(default_value));
     RPC_SETTINGS_FIELDS(V)
 #undef V
+    return tr_variant{ std::move(settings) };
 }
 
 tr_rpc_server::~tr_rpc_server()

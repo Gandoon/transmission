@@ -5,20 +5,19 @@
 
 #include <algorithm>
 #include <array>
+#include <cstdint> // uint8_t
 #include <cstring>
 #include <iterator> // back_inserter
-#include <string>
+#include <optional>
 #include <string_view>
 
 #include <fmt/core.h>
-
-#include "libtransmission/transmission.h"
 
 #include "libtransmission/crypto-utils.h"
 #include "libtransmission/error.h"
 #include "libtransmission/error-types.h"
 #include "libtransmission/magnet-metainfo.h"
-#include "libtransmission/tr-assert.h"
+#include "libtransmission/tr-strbuf.h" // for tr_urlbuf
 #include "libtransmission/utils.h"
 #include "libtransmission/web-utils.h"
 
@@ -167,29 +166,29 @@ std::optional<tr_sha256_digest_t> parseHash2(std::string_view sv)
 
 // ---
 
-tr_urlbuf tr_magnet_metainfo::magnet() const
+std::string tr_magnet_metainfo::magnet() const
 {
-    auto s = tr_urlbuf{ "magnet:?xt=urn:btih:"sv, info_hash_string() };
+    auto buf = tr_urlbuf{ "magnet:?xt=urn:btih:"sv, info_hash_string() };
 
     if (!std::empty(name_))
     {
-        s += "&dn="sv;
-        tr_urlPercentEncode(std::back_inserter(s), name_);
+        buf += "&dn="sv;
+        tr_urlPercentEncode(std::back_inserter(buf), name_);
     }
 
     for (auto const& tracker : this->announce_list())
     {
-        s += "&tr="sv;
-        tr_urlPercentEncode(std::back_inserter(s), tracker.announce.sv());
+        buf += "&tr="sv;
+        tr_urlPercentEncode(std::back_inserter(buf), tracker.announce.sv());
     }
 
     for (auto const& webseed : webseed_urls_)
     {
-        s += "&ws="sv;
-        tr_urlPercentEncode(std::back_inserter(s), webseed);
+        buf += "&ws="sv;
+        tr_urlPercentEncode(std::back_inserter(buf), webseed);
     }
 
-    return s;
+    return std::string{ buf.sv() };
 }
 
 void tr_magnet_metainfo::add_webseed(std::string_view webseed)

@@ -5,7 +5,7 @@
 
 #include <algorithm>
 #include <array>
-#include <climits> // INT_MAX
+#include <chrono> // operator""ms
 #include <cstdio>
 #include <ctime>
 #include <deque>
@@ -16,6 +16,7 @@
 #include <set>
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include <fmt/core.h>
@@ -28,11 +29,13 @@
 #include "libtransmission/announcer-common.h"
 #include "libtransmission/announcer.h"
 #include "libtransmission/crypto-utils.h" /* tr_rand_int() */
+#include "libtransmission/interned-string.h" // tr_interned_string
 #include "libtransmission/log.h"
 #include "libtransmission/session.h"
 #include "libtransmission/timer.h"
 #include "libtransmission/torrent.h"
 #include "libtransmission/tr-assert.h"
+#include "libtransmission/tr-macros.h" // tr_sha1_digest_t, TR_C...
 #include "libtransmission/utils.h"
 #include "libtransmission/web-utils.h"
 
@@ -65,35 +68,22 @@ struct StopsCompare
         // primary key: volume of data transferred
         auto const ax = one.up + one.down;
         auto const bx = two.up + two.down;
-        if (ax < bx)
+        if (auto const val = tr_compare_3way(ax, bx); val != 0)
         {
-            return -1;
-        }
-        if (ax > bx)
-        {
-            return 1;
+            return val;
         }
 
         // secondary key: the torrent's info_hash
         for (size_t i = 0, n = sizeof(tr_sha1_digest_t); i < n; ++i)
         {
-            if (one.info_hash[i] != two.info_hash[i])
+            if (auto const val = tr_compare_3way(one.info_hash[i], two.info_hash[i]); val != 0)
             {
-                return one.info_hash[i] < two.info_hash[i] ? -1 : 1;
+                return val;
             }
         }
 
         // tertiary key: the tracker's announce url
-        if (one.announce_url < two.announce_url)
-        {
-            return -1;
-        }
-        if (one.announce_url > two.announce_url)
-        {
-            return 1;
-        }
-
-        return 0;
+        return tr_compare_3way(one.announce_url, two.announce_url);
     }
 
     [[nodiscard]] constexpr auto operator()(tr_announce_request const& one, tr_announce_request const& two) const noexcept
@@ -305,6 +295,66 @@ struct tr_tracker
         }
     }
 
+    [[nodiscard]] constexpr auto seeder_count() const noexcept
+    {
+        return seeder_count_;
+    }
+
+    constexpr bool set_seeder_count(std::optional<int64_t> seeder_count_in) noexcept
+    {
+        if (seeder_count_in >= 0)
+        {
+            seeder_count_ = seeder_count_in;
+            return true;
+        }
+        return false;
+    }
+
+    [[nodiscard]] constexpr auto leecher_count() const noexcept
+    {
+        return leecher_count_;
+    }
+
+    constexpr bool set_leecher_count(std::optional<int64_t> leecher_count_in) noexcept
+    {
+        if (leecher_count_in >= 0)
+        {
+            leecher_count_ = leecher_count_in;
+            return true;
+        }
+        return false;
+    }
+
+    [[nodiscard]] constexpr auto download_count() const noexcept
+    {
+        return download_count_;
+    }
+
+    constexpr bool set_download_count(std::optional<int64_t> download_count_in) noexcept
+    {
+        if (download_count_in >= 0)
+        {
+            download_count_ = download_count_in;
+            return true;
+        }
+        return false;
+    }
+
+    [[nodiscard]] constexpr auto downloader_count() const noexcept
+    {
+        return downloader_count_;
+    }
+
+    constexpr bool set_downloader_count(std::optional<int64_t> downloader_count_in) noexcept
+    {
+        if (downloader_count_in >= 0)
+        {
+            downloader_count_ = downloader_count_in;
+            return true;
+        }
+        return false;
+    }
+
     tr_interned_string const host_and_port;
     tr_interned_string const announce_url;
     std::string_view const sitename;
@@ -312,14 +362,15 @@ struct tr_tracker
 
     std::string tracker_id;
 
-    int seeder_count = -1;
-    int leecher_count = -1;
-    int download_count = -1;
-    int downloader_count = -1;
-
     int consecutive_failures = 0;
 
     tr_tracker_id_t const id;
+
+private:
+    std::optional<int64_t> seeder_count_;
+    std::optional<int64_t> leecher_count_;
+    std::optional<int64_t> download_count_;
+    std::optional<int64_t> downloader_count_;
 };
 
 // format: `${host}:${port}`
@@ -388,7 +439,7 @@ struct tr_tier
     {
         auto const* const tracker = currentTracker();
 
-        return tracker == nullptr ? 0 : tracker->downloader_count + tracker->leecher_count;
+        return tracker == nullptr ? 0 : tracker->downloader_count().value_or(-1) + tracker->leecher_count().value_or(-1);
     }
 
     tr_tracker* useNextTracker()
@@ -434,17 +485,9 @@ struct tr_tier
 
     [[nodiscard]] std::string buildLogName() const
     {
-        auto buf = std::array<char, 512>{};
-        buildLogName(std::data(buf), std::size(buf));
-        return std::string{ std::data(buf) };
-    }
-
-    void buildLogName(char* buf, size_t buflen) const
-    {
-        auto const* const torrent_name = tr_torrentName(tor);
         auto const* const current_tracker = currentTracker();
         auto const host_and_port_sv = current_tracker == nullptr ? "?"sv : current_tracker->host_and_port.sv();
-        *fmt::format_to_n(buf, buflen - 1, FMT_STRING("{:s} at {:s}"), torrent_name, host_and_port_sv).out = '\0';
+        return fmt::format("{:s} at {:s}", tor->name(), host_and_port_sv);
     }
 
     [[nodiscard]] bool canManualAnnounce() const
@@ -679,7 +722,7 @@ void publishError(tr_tier* tier, std::string_view msg)
     publishMessage(tier, msg, tr_tracker_event::Type::Error);
 }
 
-void publishPeerCounts(tr_tier* tier, int seeders, int leechers)
+void publishPeerCounts(tr_tier* tier, std::optional<int64_t> seeders, std::optional<int64_t> leechers)
 {
     if (tier->tor->torrent_announcer->callback != nullptr)
     {
@@ -687,28 +730,22 @@ void publishPeerCounts(tr_tier* tier, int seeders, int leechers)
         e.type = tr_tracker_event::Type::Counts;
         e.seeders = seeders;
         e.leechers = leechers;
-        tr_logAddDebugTier(tier, fmt::format("peer counts: {} seeders, {} leechers.", seeders, leechers));
+        tr_logAddDebugTier(
+            tier,
+            fmt::format("peer counts: {} seeders, {} leechers.", seeders.value_or(-1), leechers.value_or(-1)));
 
         tier->tor->torrent_announcer->callback(*tier->tor, &e);
     }
 }
 
-void publishPeersPex(tr_tier* tier, int seeders, int leechers, std::vector<tr_pex> const& pex)
+void publishPeersPex(tr_tier* tier, std::vector<tr_pex> const& pex)
 {
     if (tier->tor->torrent_announcer->callback != nullptr)
     {
         auto e = tr_tracker_event{};
         e.type = tr_tracker_event::Type::Peers;
-        e.seeders = seeders;
-        e.leechers = leechers;
         e.pex = pex;
-        tr_logAddDebugTier(
-            tier,
-            fmt::format(
-                "tracker knows of {} seeders and {} leechers and gave a list of {} peers.",
-                seeders,
-                leechers,
-                std::size(pex)));
+        tr_logAddDebugTier(tier, fmt::format("tracker gave a list of {} peers.", std::size(pex)));
 
         tier->tor->torrent_announcer->callback(*tier->tor, &e);
     }
@@ -723,7 +760,7 @@ tr_torrent_announcer* tr_announcer_impl::addTorrent(tr_torrent* tor, tr_tracker_
     TR_ASSERT(tr_isTorrent(tor));
 
     auto* ta = new tr_torrent_announcer{ this, tor };
-    ta->callback = callback;
+    ta->callback = std::move(callback);
     return ta;
 }
 
@@ -771,7 +808,7 @@ void tr_logAddTrace_tier_announce_queue(tr_tier const* tier)
         fmt::format_to(std::back_inserter(buf), FMT_STRING("[{:d}:{:s}]"), i, tr_announce_event_get_string(events[i]));
     }
 
-    tr_logAddTraceTier(tier, buf);
+    tr_logAddTraceTier(tier, std::move(buf));
 }
 
 // higher priorities go to the front of the announce queue
@@ -876,7 +913,7 @@ void on_announce_error(tr_tier* tier, char const* err, tr_announce_event e)
     {
         tr_logAddErrorTier(
             tier,
-            fmt::format(_("Announce error: {error}"), fmt::arg("error", err)).append(fmt::format(" ({})", announce_url)));
+            fmt::format(_("Announce error: {error} ({url})"), fmt::arg("error", err), fmt::arg("url", announce_url)));
     }
     else
     {
@@ -886,12 +923,12 @@ void on_announce_error(tr_tier* tier, char const* err, tr_announce_event e)
             tier,
             fmt::format(
                 tr_ngettext(
-                    "Announce error: {error} (Retrying in {count} second)",
-                    "Announce error: {error} (Retrying in {count} seconds)",
+                    "Announce error: {error} (Retrying in {count} second) ({url})",
+                    "Announce error: {error} (Retrying in {count} seconds) ({url})",
                     interval),
                 fmt::arg("error", err),
-                fmt::arg("count", interval))
-                .append(fmt::format(" ({})", announce_url)));
+                fmt::arg("count", interval),
+                fmt::arg("url", announce_url)));
         tier_announce_event_push(tier, e, tr_time() + interval);
     }
 }
@@ -919,7 +956,7 @@ void on_announce_error(tr_tier* tier, char const* err, tr_announce_event e)
     req.numwant = event == TR_ANNOUNCE_EVENT_STOPPED ? 0 : Numwant;
     req.key = tor->announce_key();
     req.partial_seed = tor->is_partial_seed();
-    tier->buildLogName(req.log_name, sizeof(req.log_name));
+    req.log_name = tier->buildLogName();
     return req;
 }
 
@@ -987,9 +1024,9 @@ void tr_announcer_impl::onAnnounceDone(
             "warn:{}",
             response.did_connect,
             response.did_timeout,
-            response.seeders,
-            response.leechers,
-            response.downloads,
+            response.seeders.value_or(-1),
+            response.leechers.value_or(-1),
+            response.downloads.value_or(-1),
             response.interval,
             response.min_interval,
             (!std::empty(response.tracker_id) ? response.tracker_id.c_str() : "none"),
@@ -1033,9 +1070,7 @@ void tr_announcer_impl::onAnnounceDone(
     else
     {
         auto const is_stopped = event == TR_ANNOUNCE_EVENT_STOPPED;
-        auto leechers = int{};
-        auto scrape_fields = int{};
-        auto seeders = int{};
+        auto scrape_fields = uint8_t{};
 
         publishErrorClear(tier);
 
@@ -1044,21 +1079,18 @@ void tr_announcer_impl::onAnnounceDone(
         {
             tracker->consecutive_failures = 0;
 
-            if (response.seeders >= 0)
+            if (tracker->set_seeder_count(response.seeders))
             {
-                tracker->seeder_count = seeders = response.seeders;
                 ++scrape_fields;
             }
 
-            if (response.leechers >= 0)
+            if (tracker->set_leecher_count(response.leechers))
             {
-                tracker->leecher_count = leechers = response.leechers;
                 ++scrape_fields;
             }
 
-            if (response.downloads >= 0)
+            if (tracker->set_download_count(response.downloads))
             {
-                tracker->download_count = response.downloads;
                 ++scrape_fields;
             }
 
@@ -1091,25 +1123,21 @@ void tr_announcer_impl::onAnnounceDone(
 
         if (!std::empty(response.pex))
         {
-            publishPeersPex(tier, seeders, leechers, response.pex);
+            publishPeersPex(tier, response.pex);
         }
 
         if (!std::empty(response.pex6))
         {
-            publishPeersPex(tier, seeders, leechers, response.pex6);
+            publishPeersPex(tier, response.pex6);
         }
 
-        /* Only publish leechers if it was actually returned during the announce */
-        if (response.leechers >= 0)
-        {
-            publishPeerCounts(tier, seeders, leechers);
-        }
+        publishPeerCounts(tier, response.seeders, response.leechers);
 
         tier->isRunning = is_running_on_success;
 
         /* if the tracker included scrape fields in its announce response,
            then a separate scrape isn't needed */
-        if (scrape_fields >= 3 || (scrape_fields >= 1 && tracker->scrape_info == nullptr))
+        if (scrape_fields >= 3U || (scrape_fields >= 1U && tracker->scrape_info == nullptr))
         {
             tr_logAddTraceTier(
                 tier,
@@ -1332,10 +1360,10 @@ void tr_announcer_impl::onScrapeDone(tr_scrape_response const& response)
                 response.scrape_url.sv(),
                 response.did_connect,
                 response.did_timeout,
-                row.seeders,
-                row.leechers,
-                row.downloads,
-                row.downloaders,
+                row.seeders.value_or(-1),
+                row.leechers.value_or(-1),
+                row.downloads.value_or(-1),
+                row.downloaders.value_or(-1),
                 response.min_request_interval,
                 std::empty(response.errmsg) ? "none"sv : response.errmsg));
 
@@ -1365,29 +1393,15 @@ void tr_announcer_impl::onScrapeDone(tr_scrape_response const& response)
 
             if (tr_tracker* const tracker = tier->currentTracker(); tracker != nullptr)
             {
-                if (row.seeders >= 0)
-                {
-                    tracker->seeder_count = row.seeders;
-                }
+                tracker->set_seeder_count(row.seeders);
+                tracker->set_leecher_count(row.leechers);
+                tracker->set_download_count(row.downloads);
+                tracker->set_downloader_count(row.downloaders);
 
-                if (row.leechers >= 0)
-                {
-                    tracker->leecher_count = row.leechers;
-                }
-
-                if (row.downloads >= 0)
-                {
-                    tracker->download_count = row.downloads;
-                }
-
-                tracker->downloader_count = row.downloaders;
                 tracker->consecutive_failures = 0;
             }
 
-            if (row.seeders >= 0 && row.leechers >= 0 && row.downloads >= 0)
-            {
-                publishPeerCounts(tier, row.seeders, row.leechers);
-            }
+            publishPeerCounts(tier, row.seeders, row.leechers);
         }
     }
 
@@ -1448,7 +1462,7 @@ void multiscrape(tr_announcer_impl* announcer, std::vector<tr_tier*> const& tier
         {
             auto* const req = &requests[request_count];
             req->scrape_url = scrape_info->scrape_url;
-            tier->buildLogName(req->log_name, sizeof(req->log_name));
+            req->log_name = tier->buildLogName();
 
             req->info_hash[req->info_hash_count] = tier->tor->info_hash();
             ++req->info_hash_count;
@@ -1479,15 +1493,15 @@ namespace upkeep_helpers
 int compareAnnounceTiers(tr_tier const* a, tr_tier const* b)
 {
     /* prefer higher-priority events */
-    if (auto const priority_a = a->announce_event_priority, priority_b = b->announce_event_priority; priority_a != priority_b)
+    if (auto const val = tr_compare_3way(a->announce_event_priority, b->announce_event_priority); val != 0)
     {
-        return priority_a > priority_b ? -1 : 1;
+        return -val;
     }
 
     /* prefer swarms where we might upload */
-    if (auto const leechers_a = a->countDownloaders(), leechers_b = b->countDownloaders(); leechers_a != leechers_b)
+    if (auto const val = tr_compare_3way(a->countDownloaders(), b->countDownloaders()); val != 0)
     {
-        return leechers_a > leechers_b ? -1 : 1;
+        return -val;
     }
 
     /* prefer swarms where we might download */
@@ -1497,22 +1511,23 @@ int compareAnnounceTiers(tr_tier const* a, tr_tier const* b)
     }
 
     /* prefer larger stats, to help ensure stats get recorded when stopping on shutdown */
-    if (auto const xa = a->byteCounts[TR_ANN_UP] + a->byteCounts[TR_ANN_DOWN],
-        xb = b->byteCounts[TR_ANN_UP] + b->byteCounts[TR_ANN_DOWN];
-        xa != xb)
+    if (auto const val = tr_compare_3way(
+            a->byteCounts[TR_ANN_UP] + a->byteCounts[TR_ANN_DOWN],
+            b->byteCounts[TR_ANN_UP] + b->byteCounts[TR_ANN_DOWN]);
+        val != 0)
     {
-        return xa > xb ? -1 : 1;
+        return -val;
     }
 
     // announcements that have been waiting longer go first
-    if (a->announceAt != b->announceAt)
+    if (auto const val = tr_compare_3way(a->announceAt, b->announceAt); val != 0)
     {
-        return a->announceAt < b->announceAt ? -1 : 1;
+        return val;
     }
 
     // the tiers are effectively equal priority, but add an arbitrary
     // differentiation because ptrArray sorted mode hates equal items.
-    return a < b ? -1 : 1;
+    return tr_compare_3way(a, b);
 }
 
 void tierAnnounce(tr_announcer_impl* announcer, tr_tier* tier)
@@ -1637,9 +1652,9 @@ namespace tracker_view_helpers
     view.tier = tier_index;
     view.isBackup = &tracker != tier.currentTracker();
     view.lastScrapeStartTime = tier.lastScrapeStartTime;
-    view.seederCount = tracker.seeder_count;
-    view.leecherCount = tracker.leecher_count;
-    view.downloadCount = tracker.download_count;
+    view.seederCount = tracker.seeder_count().value_or(-1);
+    view.leecherCount = tracker.leecher_count().value_or(-1);
+    view.downloadCount = tracker.download_count().value_or(-1);
 
     if (view.isBackup)
     {
@@ -1778,10 +1793,10 @@ void tr_announcer_impl::resetTorrent(tr_torrent* tor)
                 tr_tracker const* old_tracker = nullptr;
                 if (older->findTracker(new_tracker.announce_url, &old_tier, &old_tracker))
                 {
-                    new_tracker.seeder_count = old_tracker->seeder_count;
-                    new_tracker.leecher_count = old_tracker->leecher_count;
-                    new_tracker.download_count = old_tracker->download_count;
-                    new_tracker.downloader_count = old_tracker->downloader_count;
+                    new_tracker.set_seeder_count(old_tracker->seeder_count());
+                    new_tracker.set_leecher_count(old_tracker->leecher_count());
+                    new_tracker.set_download_count(old_tracker->download_count());
+                    new_tracker.set_downloader_count(old_tracker->downloader_count());
 
                     new_tier.announce_events = old_tier->announce_events;
                     new_tier.announce_event_priority = old_tier->announce_event_priority;

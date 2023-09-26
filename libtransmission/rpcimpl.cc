@@ -6,11 +6,13 @@
 #include <algorithm>
 #include <array>
 #include <cerrno>
+#include <cstdint>
 #include <ctime>
 #include <iterator>
 #include <memory>
 #include <numeric>
 #include <set>
+#include <string>
 #include <string_view>
 #include <utility>
 #include <vector>
@@ -22,7 +24,6 @@
 #include "libtransmission/transmission.h"
 
 #include "libtransmission/announcer.h"
-#include "libtransmission/completion.h"
 #include "libtransmission/crypto-utils.h"
 #include "libtransmission/error.h"
 #include "libtransmission/file.h"
@@ -30,11 +31,9 @@
 #include "libtransmission/peer-mgr.h"
 #include "libtransmission/quark.h"
 #include "libtransmission/rpcimpl.h"
-#include "libtransmission/session-id.h"
 #include "libtransmission/session.h"
 #include "libtransmission/torrent.h"
 #include "libtransmission/tr-assert.h"
-#include "libtransmission/tr-macros.h"
 #include "libtransmission/tr-strbuf.h"
 #include "libtransmission/utils.h"
 #include "libtransmission/variant.h"
@@ -79,7 +78,6 @@ void tr_idle_function_done(struct tr_rpc_idle_data* data, std::string_view resul
 
     (*data->callback)(data->session, &data->response, data->callback_user_data);
 
-    tr_variantClear(&data->response);
     delete data;
 }
 
@@ -905,7 +903,6 @@ void addTorrentInfo(tr_torrent* tor, TrFormat format, tr_variant* entry, tr_quar
 char const* torrentGet(tr_session* session, tr_variant* args_in, tr_variant* args_out, tr_rpc_idle_data* /*idle_data*/)
 {
     auto const torrents = getTorrents(session, args_in);
-    tr_variant* const list = tr_variantDictAddList(args_out, TR_KEY_torrents, std::size(torrents) + 1);
 
     auto sv = std::string_view{};
     auto const format = tr_variantDictFindStrView(args_in, TR_KEY_format, &sv) && sv == "table"sv ? TrFormat::Table :
@@ -946,6 +943,8 @@ char const* torrentGet(tr_session* session, tr_variant* args_in, tr_variant* arg
                 keys.emplace_back(*key);
             }
         }
+
+        auto* const list = tr_variantDictAddList(args_out, TR_KEY_torrents, std::size(torrents) + 1U);
 
         if (format == TrFormat::Table)
         {
@@ -1743,7 +1742,7 @@ char const* groupGet(tr_session* s, tr_variant* args_in, tr_variant* args_out, s
         for (size_t i = 0; i < names_count; ++i)
         {
             auto const* const v = tr_variantListChild(names_list, i);
-            if (std::string_view l; tr_variantIsString(v) && tr_variantGetStrView(v, &l))
+            if (std::string_view l; v != nullptr && tr_variantGetStrView(v, &l))
             {
                 names.insert(l);
             }
@@ -2216,7 +2215,7 @@ void addSessionField(tr_session const* s, tr_variant* d, tr_quark key)
         break;
 
     case TR_KEY_pex_enabled:
-        tr_variantDictAddBool(d, key, s->allowsPEX());
+        tr_variantDictAddBool(d, key, s->allows_pex());
         break;
 
     case TR_KEY_tcp_enabled:
@@ -2352,7 +2351,7 @@ void addSessionField(tr_session const* s, tr_variant* d, tr_quark key)
         break;
 
     case TR_KEY_units:
-        tr_formatter_get_units(tr_variantDictAddDict(d, key, 0));
+        *tr_variantDictAdd(d, key) = tr_formatter_get_units();
         break;
 
     case TR_KEY_version:
@@ -2536,8 +2535,6 @@ void tr_rpc_request_exec_json(
         }
 
         (*callback)(session, &response, callback_user_data);
-
-        tr_variantClear(&response);
     }
     else if (method->immediate)
     {
@@ -2559,8 +2556,6 @@ void tr_rpc_request_exec_json(
         }
 
         (*callback)(session, &response, callback_user_data);
-
-        tr_variantClear(&response);
     }
     else
     {
